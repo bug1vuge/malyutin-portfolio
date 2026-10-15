@@ -280,7 +280,7 @@
 
 .hero__photo img {
   width: 100%;
-  aspect-ratio: 333 / 500;
+  aspect-ratio: 2 / 3;
   object-fit: cover;
   filter: saturate(0.9) contrast(1.04);
 }

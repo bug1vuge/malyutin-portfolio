@@ -292,9 +292,9 @@ export function Hero({ ready }: { ready: boolean }) {
             <figure className="hero__photo window">
               <div className="window__bar">
                 <span className="window__file">portrait.webp</span>
-                <span className="window__lang">333×500</span>
+                <span className="window__lang">640×960</span>
               </div>
-              <img src={portrait} alt={`${firstName} ${lastName}`} width={333} height={500} fetchPriority="high" />
+              <img src={portrait} alt={`${firstName} ${lastName}`} width={640} height={960} fetchPriority="high" />
             </figure>
 
             <CodeWindow ready={ready} />
