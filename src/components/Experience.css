@@ -1,0 +1,305 @@
+.experience .section-head h2 .punct {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.4em;
+  letter-spacing: -0.01em;
+}
+
+.git-log {
+  --rail: 22px;
+  --progress: 0;
+  position: relative;
+  display: grid;
+  gap: clamp(2.5rem, 2rem + 2vw, 4rem);
+  padding-left: calc(var(--rail) + clamp(1.25rem, 3vw, 2.5rem));
+}
+
+/* The branch: a dim track and an amber fill driven by --progress */
+.git-log::before,
+.git-log::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--rail) / 2 - 1px);
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  border-radius: 2px;
+}
+
+.git-log::before {
+  background: var(--line-2);
+}
+
+.git-log::after {
+  background: linear-gradient(var(--caret), var(--num));
+  transform-origin: top;
+  transform: scaleY(var(--progress));
+  box-shadow: 0 0 12px rgba(255, 181, 71, 0.5);
+}
+
+.commit {
+  position: relative;
+}
+
+.commit__node {
+  position: absolute;
+  left: calc(-1 * clamp(1.25rem, 3vw, 2.5rem) - var(--rail));
+  top: 2px;
+  z-index: 1;
+  width: var(--rail);
+  height: var(--rail);
+  border-radius: 50%;
+  background: var(--bg-3);
+  box-shadow: inset 0 0 0 2px var(--line-2);
+  transition:
+    box-shadow 0.4s,
+    transform 0.5s var(--ease-bounce);
+}
+
+.commit__node::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: var(--caret);
+  transform: scale(0);
+  transition: transform 0.45s var(--ease-bounce);
+}
+
+.commit.is-reached .commit__node {
+  box-shadow:
+    inset 0 0 0 2px var(--caret),
+    0 0 0 6px rgba(255, 181, 71, 0.12);
+  transform: scale(1.08);
+}
+
+.commit.is-reached .commit__node::after {
+  transform: scale(1);
+}
+
+.commit__meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-code);
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.commit__ref {
+  color: var(--str);
+}
+
+.commit__card {
+  position: relative;
+  margin-top: 1.1rem;
+  padding: clamp(1.25rem, 1rem + 1.5vw, 2.25rem);
+  border-radius: var(--radius);
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.commit__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 181, 71, 0.07), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.commit__card:hover::before {
+  opacity: 1;
+}
+
+.commit__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+}
+
+.commit__head h3 {
+  font-size: clamp(1.3rem, 1.05rem + 1vw, 1.9rem);
+  letter-spacing: -0.02em;
+}
+
+.commit__at {
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.commit__company {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--fn);
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.4s var(--ease-out);
+}
+
+.commit__company:hover {
+  background-size: 100% 1px;
+}
+
+.commit__company svg {
+  width: 0.7em;
+  height: 0.7em;
+  opacity: 0.6;
+}
+
+.commit__city {
+  font-family: var(--font-mono);
+  font-size: var(--fs-code);
+  color: var(--comment);
+}
+
+.commit__summary {
+  max-width: 46rem;
+  margin-top: 0.85rem;
+  color: var(--muted);
+}
+
+.commit__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-block: 1.25rem;
+  border-block: 1px dashed var(--line-2);
+}
+
+.commit__metrics div {
+  display: flex;
+  flex-direction: column;
+}
+
+.commit__metrics dt {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.commit__metrics dd {
+  order: -1;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: clamp(1.3rem, 1rem + 1.2vw, 2rem);
+  letter-spacing: -0.05em;
+  color: var(--num);
+  white-space: nowrap;
+}
+
+/* Achievements read like a diff: green plus lines */
+.commit__diff {
+  display: grid;
+  gap: 0.1rem;
+  margin-top: 1.5rem;
+}
+
+.commit__diff li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  border-radius: 6px;
+  line-height: 1.5;
+  transition: background-color 0.2s;
+}
+
+.commit__diff li:hover {
+  background: rgba(126, 224, 181, 0.06);
+}
+
+.commit__plus {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--str);
+  text-align: center;
+}
+
+.commit__extra {
+  display: none !important;
+}
+
+.commit__diff.is-open .commit__extra {
+  display: grid !important;
+  animation: diff-in 0.5s var(--ease-out) both;
+  animation-delay: calc(var(--n) * 50ms);
+}
+
+@keyframes diff-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+    background: rgba(126, 224, 181, 0.14);
+  }
+}
+
+.commit__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding: 0.35rem 0.6rem 0.35rem 0.35rem;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-code);
+  color: var(--str);
+  transition: background-color 0.2s;
+}
+
+.commit__toggle:hover {
+  background: rgba(126, 224, 181, 0.08);
+}
+
+.commit__toggle svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.commit__toggle[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+
+.commit__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+}
+
+.commit--root .commit__meta {
+  padding-top: 1px;
+}
+
+@media (max-width: 640px) {
+  .git-log {
+    --rail: 16px;
+  }
+  .commit__metrics {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .commit__metrics div {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  .commit__metrics dd {
+    order: 0;
+    margin: 0;
+    min-width: 5.5rem;
+  }
+  .commit__metrics dt {
+    order: 1;
+  }
+}
