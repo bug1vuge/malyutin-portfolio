@@ -60,12 +60,13 @@ const ru = {
   },
   projects: {
     title: 'Проекты',
-    lead: 'Избранные работы: у каждой есть ссылка на живой продукт и на исходный код.',
+    lead: 'Коммерческие проекты и сайты, над которыми я работал. Каждый можно открыть вживую.',
     filter: 'Фильтр проектов',
     stack: 'Стек',
-    screenshot: (title: string) => `Скриншот проекта «${title}»`,
     demo: 'Открыть продукт',
     repo: 'Код на GitHub',
+    private: 'Закрытый код',
+    privateHint: 'Коммерческий проект: исходный код принадлежит заказчику',
     moreTitle: 'Остальной код — на GitHub',
   },
   skills: {
@@ -161,12 +162,13 @@ const en: Dictionary = {
   },
   projects: {
     title: 'Projects',
-    lead: 'Selected work, each with a link to the live product and its source code.',
+    lead: 'Commercial projects and websites I have worked on. Each one is live and ready to explore.',
     filter: 'Filter projects',
     stack: 'Stack',
-    screenshot: (title: string) => `Screenshot of ${title}`,
     demo: 'Live demo',
     repo: 'Source code',
+    private: 'Private code',
+    privateHint: 'Commercial project: the source code belongs to the client',
     moreTitle: 'More code on GitHub',
   },
   skills: {

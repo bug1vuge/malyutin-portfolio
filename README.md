@@ -41,29 +41,34 @@ npm run format     # prettier
 
 ## Как добавить проект
 
-Все проекты лежат в [`src/data/projects.ts`](src/data/projects.ts). Замените заглушку на реальный объект:
+Все проекты лежат в [`src/data/projects.ts`](src/data/projects.ts). Добавьте объект в массив `projects`:
 
 ```ts
 {
-  id: 'floxy-admin',
-  title: { ru: 'FLOXY — админ-панель', en: 'FLOXY admin panel' },
-  description: {
-    ru: 'Управление заказами, аналитика прибыли и платёжные интеграции.',
-    en: 'Order management, profit analytics, and payment integrations.',
+  id: 'my-project',
+  title: { ru: 'Название', en: 'Title' },
+  description: { ru: 'Что это и что в нём сделано.', en: 'What it is and what was built.' },
+  category: 'saas',                  // saas | realestate | sites
+  domain: 'example.com',             // показывается в шапке карточки и на обложке
+  stack: ['React', 'TypeScript'],
+  demoUrl: 'https://example.com/',
+  repoUrl: null,                     // null — вместо кнопки «Код на GitHub» будет «Закрытый код»
+  cover: {
+    scene: 'dashboard',              // dashboard | landing | genplan | facade | chess | catalog | village | studio | event
+    tone: 'kw',                      // kw | fn | str | num | caret — акцентный цвет обложки
+    headline: 'Название в окне',
+    kicker: 'Подпись над заголовком',
+    labels: ['…'],                   // надписи внутри сцены: статусы, карточки, подсказки
   },
-  category: 'admin',            // spa | admin | fullstack | landing
-  stack: ['React', 'TypeScript', 'Redux Toolkit', 'Ant Design'],
-  demoUrl: 'https://…',         // null — кнопка скроется
-  repoUrl: 'https://github.com/bug1vuge/…',
-  image: 'projects/floxy.webp', // файл в public/projects/; null — нарисуется код-превью
-  year: 2026,
+  featured: true,                    // необязательно: первая карточка на всю ширину
 }
 ```
 
-Текстовые поля (`title`, `description`, элементы `stack`) можно писать одной строкой, если текст
-одинаков на обоих языках, или парой `{ ru: '…', en: '…' }`.
+Обложки рисуются кодом (`src/components/ProjectCover.tsx`): общая рамка — сетка, свечение,
+окно браузера с адресом сайта — и сцена, которая показывает суть проекта.
 
-Скриншоты кладите в `public/projects/` (лучше `.webp`, 1600×1000).
+Текстовые поля можно писать одной строкой, если текст одинаков на обоих языках,
+или парой `{ ru: '…', en: '…' }`.
 
 Остальной контент: `src/data/profile.ts` (о себе, контакты), `src/data/experience.ts`, `src/data/skills.ts`.
 Тексты интерфейса (кнопки, заголовки, терминал) — в `src/i18n/ui.ts`.

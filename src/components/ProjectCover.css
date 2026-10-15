@@ -1,0 +1,407 @@
+/* ─────────────────────────────────────────────
+   Project covers: one frame, one neutral palette,
+   a single accent per project (--acc).
+   ───────────────────────────────────────────── */
+.cover {
+  --acc: var(--kw);
+  --cv-bg: #0c1420;
+  --cv-window: #111b2b;
+  --cv-panel: #0e1724;
+  --cv-card: #172334;
+  --cv-chip: #1d2b40;
+  --cv-line: #2a3b55;
+  --cv-strong: #3a4e6e;
+  --cv-text: #dbe4f2;
+  --cv-muted: #8796b0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cover--kw {
+  --acc: var(--kw);
+}
+.cover--fn {
+  --acc: var(--fn);
+}
+.cover--str {
+  --acc: var(--str);
+}
+.cover--num {
+  --acc: var(--num);
+}
+.cover--caret {
+  --acc: var(--caret);
+}
+
+/* Frame */
+.cv-bg {
+  fill: var(--cv-bg);
+}
+.cv-dot {
+  fill: var(--cv-strong);
+  opacity: 0.5;
+}
+.cv-glow-stop {
+  stop-color: var(--acc);
+  stop-opacity: 0.32;
+}
+.cv-glow-stop--end {
+  stop-opacity: 0;
+}
+.cv-glow {
+  transition: opacity 0.6s;
+  opacity: 0.8;
+}
+.cv-window {
+  transition: transform 0.7s var(--ease-out);
+}
+.cv-window-bg {
+  fill: var(--cv-window);
+}
+.cv-window-stroke {
+  fill: none;
+  stroke: var(--cv-line);
+  stroke-width: 1;
+}
+.cv-chrome {
+  fill: var(--cv-panel);
+}
+.cv-chrome-icon {
+  fill: none;
+  stroke: var(--cv-strong);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cv-address {
+  fill: var(--cv-card);
+}
+.cv-lock {
+  fill: var(--acc);
+}
+.cv-domain {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  fill: var(--cv-muted);
+}
+.cv-grid {
+  fill: var(--cv-line);
+  opacity: 0.6;
+}
+
+/* Typography inside the mock */
+.cv-brand {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: -0.02em;
+  fill: var(--cv-text);
+}
+.cv-kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--acc);
+}
+.cv-headline {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  fill: var(--cv-text);
+}
+.cv-headline--acc {
+  fill: var(--acc);
+}
+.cv-giant {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 92px;
+  letter-spacing: -0.07em;
+  fill: var(--cv-text);
+}
+.cv-giant--outline {
+  fill: none;
+  stroke: var(--acc);
+  stroke-width: 1.4;
+}
+.cv-btn-text {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 10px;
+  fill: #10141c;
+}
+.cv-tip-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 11.5px;
+  fill: var(--cv-text);
+}
+.cv-tip-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  fill: var(--cv-muted);
+}
+.cv-mono {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--cv-muted);
+}
+.cv-tape {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -0.02em;
+  fill: #10141c;
+}
+
+/* Surfaces */
+.cv-panel {
+  fill: var(--cv-panel);
+}
+.cv-card {
+  fill: var(--cv-card);
+  stroke: var(--cv-line);
+  stroke-width: 1;
+}
+.cv-card--ghost {
+  opacity: 0.55;
+}
+.cv-chip {
+  fill: var(--cv-chip);
+}
+.cv-line {
+  fill: var(--cv-line);
+}
+.cv-strong {
+  fill: var(--cv-strong);
+}
+.cv-strong-stroke {
+  stroke: var(--cv-strong);
+  stroke-width: 1.5;
+}
+.cv-acc {
+  fill: var(--acc);
+}
+.cv-acc-soft {
+  fill: color-mix(in srgb, var(--acc) 22%, transparent);
+}
+
+/* Charts */
+.cv-chart {
+  fill: none;
+  stroke: var(--acc);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 420;
+  stroke-dashoffset: 0;
+}
+.cv-area {
+  fill: color-mix(in srgb, var(--acc) 16%, transparent);
+}
+.cv-spark {
+  fill: none;
+  stroke: var(--acc);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.8;
+}
+
+/* Buildings & maps */
+.cv-building {
+  fill: #1a2739;
+  stroke: var(--cv-line);
+}
+.cv-building--top {
+  fill: var(--cv-strong);
+  stroke: none;
+}
+.cv-roof {
+  fill: rgba(0, 0, 0, 0.18);
+}
+.cv-window {
+  fill: #223249;
+}
+.cv-window--sold {
+  fill: #172231;
+  stroke: #24344b;
+}
+.cv-booked {
+  fill: color-mix(in srgb, var(--num) 30%, transparent);
+}
+.cv-land {
+  fill: #121d2c;
+}
+.cv-water {
+  fill: color-mix(in srgb, var(--fn) 18%, #0f1a29);
+}
+.cv-shore {
+  fill: none;
+  stroke: color-mix(in srgb, var(--caret) 45%, transparent);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.cv-wave {
+  fill: none;
+  stroke: color-mix(in srgb, var(--fn) 55%, transparent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.cv-road {
+  fill: none;
+  stroke: #1e2c40;
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+.cv-road--thin {
+  stroke-width: 6;
+}
+.cv-tree {
+  fill: color-mix(in srgb, var(--str) 22%, #132233);
+  stroke: color-mix(in srgb, var(--str) 30%, transparent);
+}
+.cv-plot {
+  fill: #18263a;
+  stroke: var(--cv-line);
+  stroke-dasharray: 4 3;
+}
+.cv-plot--sel {
+  stroke: var(--acc);
+  stroke-dasharray: none;
+  fill: color-mix(in srgb, var(--acc) 8%, #18263a);
+}
+.cv-house {
+  fill: var(--cv-strong);
+}
+.cv-photo {
+  fill: color-mix(in srgb, var(--acc) 30%, #1a2638);
+}
+.cv-skyline {
+  fill: rgba(9, 15, 24, 0.55);
+}
+
+/* Studio & event */
+.cv-blobs {
+  transition: transform 1.2s var(--ease-out);
+}
+.cv-cursor-ring {
+  fill: none;
+  stroke: var(--cv-text);
+  stroke-width: 1.2;
+}
+.cv-cursor {
+  transition: transform 0.9s var(--ease-out);
+}
+.cv-ray {
+  stroke: color-mix(in srgb, var(--acc) 40%, transparent);
+  stroke-width: 1;
+  opacity: 0.35;
+}
+.cv-ball-body {
+  fill: #2a3a54;
+  stroke: var(--cv-strong);
+}
+.cv-facet {
+  fill: none;
+  stroke: rgba(219, 228, 242, 0.25);
+  stroke-width: 1;
+}
+.cv-ball {
+  transform-origin: 440px 70px;
+}
+.cv-arch {
+  fill: color-mix(in srgb, var(--acc) 26%, #1b2738);
+}
+.cv-arch-ring {
+  fill: none;
+  stroke: var(--acc);
+  stroke-width: 2;
+  transform: translate(-6px, -6px);
+}
+
+/* ───── Motion: everything wakes up on hover ───── */
+.cv-lift,
+.cv-float,
+.cv-tooltip {
+  transition: transform 0.6s var(--ease-out);
+}
+
+.project:hover .cv-window,
+.project:focus-within .cv-window {
+  transform: translateY(-8px);
+}
+
+.project:hover .cv-glow {
+  opacity: 1;
+}
+
+.project:hover .cv-pulse {
+  animation: cv-pulse 1.4s ease-in-out infinite;
+}
+
+.project:hover .cv-float {
+  transform: translateY(-6px) rotate(-1.5deg);
+  transform-origin: 100px 118px;
+}
+
+.project:hover .cv-tooltip {
+  transform: translateY(-5px);
+}
+
+.project:hover .cv-lift {
+  transform: translateY(-4px);
+}
+
+.project:hover .cv-chart {
+  animation: cv-draw 1.4s var(--ease-out);
+}
+
+.project:hover .cv-wave {
+  animation: cv-wave 2.4s ease-in-out infinite;
+}
+
+.project:hover .cv-blobs {
+  transform: translate(-30px, 12px);
+}
+
+.project:hover .cv-cursor {
+  transform: translate(-90px, 34px);
+}
+
+.project:hover .cv-ball {
+  animation: cv-sway 3s ease-in-out infinite;
+}
+
+.project:hover .cv-ray {
+  animation: cv-ray 1.8s ease-in-out infinite;
+}
+
+@keyframes cv-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes cv-draw {
+  from {
+    stroke-dashoffset: 420;
+  }
+}
+
+@keyframes cv-wave {
+  50% {
+    transform: translateX(8px);
+  }
+}
+
+@keyframes cv-sway {
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes cv-ray {
+  50% {
+    opacity: 0.8;
+  }
+}
