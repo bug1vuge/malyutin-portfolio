@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { sections } from '../data/sections';
+import { useLang } from '../i18n/lang';
 import { isFinePointer } from '../lib/motion';
 import { useActiveSection } from '../lib/useActiveSection';
 import { BranchIcon } from './Icons';
@@ -7,6 +8,7 @@ import './StatusBar.css';
 
 /** VS Code-style status bar: the "cursor position" is your scroll and pointer. */
 export function StatusBar() {
+  const { t } = useLang();
   const active = useActiveSection();
   const meta = sections.find((s) => s.id === active) ?? sections[0];
   const [pos, setPos] = useState({ ln: 1, col: 1, pct: 0 });
@@ -47,7 +49,7 @@ export function StatusBar() {
           <BranchIcon />
           main
         </span>
-        <span className="statusbar__item statusbar__ok">✓ 0 ошибок</span>
+        <span className="statusbar__item statusbar__ok">✓ {t.statusbar.errors}</span>
         <span className="statusbar__item statusbar__file">{meta.file}</span>
       </div>
       <div className="statusbar__group">

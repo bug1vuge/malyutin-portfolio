@@ -13,9 +13,12 @@ import '@fontsource/jetbrains-mono/latin-800.css';
 import '@fontsource-variable/onest';
 import './styles/base.css';
 import { App } from './App';
+import { LangProvider } from './i18n/lang';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <LangProvider>
+      <App />
+    </LangProvider>
   </StrictMode>,
 );

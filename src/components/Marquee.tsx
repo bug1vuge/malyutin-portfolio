@@ -1,7 +1,7 @@
+import { useLang } from '../i18n/lang';
 import './Marquee.css';
 
 const STACK = ['React', 'TypeScript', 'Redux Toolkit', 'Node.js', 'PostgreSQL', 'REST API', 'Next.js', 'Vite', 'Vitest'];
-const WORK = ['SPA', 'админ-панели', 'SVG-схемы', 'карты', 'платежи', 'аналитика', 'тесты', 'PageSpeed 95+'];
 
 function Band({ items, sep, variant }: { items: string[]; sep: string; variant: 'a' | 'b' }) {
   const row = (key: string) => (
@@ -23,9 +23,10 @@ function Band({ items, sep, variant }: { items: string[]; sep: string; variant: 
 
 /** Two crossing tapes: what I write with, and what I build. */
 export function Marquee() {
+  const { t } = useLang();
   return (
     <div className="marquee" aria-hidden="true">
-      <Band items={WORK} sep=";" variant="b" />
+      <Band items={t.marquee} sep=";" variant="b" />
       <Band items={STACK} sep="✦" variant="a" />
     </div>
   );

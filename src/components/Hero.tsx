@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import portrait from '../assets/portrait.webp';
 import { contacts, profile } from '../data/profile';
+import { useLang } from '../i18n/lang';
 import { createGlyphField } from '../lib/glyphField';
 import { isFinePointer, prefersReducedMotion, randomGlyph } from '../lib/motion';
 import { TelegramIcon } from './Icons';
@@ -116,6 +117,9 @@ function CodeWindow({ ready }: { ready: boolean }) {
 }
 
 export function Hero({ ready }: { ready: boolean }) {
+  const { lang, t, tr } = useLang();
+  const firstName = tr(profile.firstName);
+  const lastName = tr(profile.lastName);
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const nameRef = useRef<HTMLSpanElement>(null);
@@ -136,7 +140,7 @@ export function Hero({ ready }: { ready: boolean }) {
       timers.push(window.setTimeout(() => (g.textContent = final), startAt + 6 * 50));
     });
     return () => timers.forEach(clearTimeout);
-  }, [ready]);
+  }, [ready, lang]);
 
   // Pointer: glyph field, letters reacting to the cursor, 3D tilt of the visual.
   useEffect(() => {
@@ -153,7 +157,8 @@ export function Hero({ ready }: { ready: boolean }) {
     const onVis = () => field.setActive(!document.hidden);
     document.addEventListener('visibilitychange', onVis);
 
-    const letters = Array.from(name.querySelectorAll<HTMLElement>('.hero__glyph'));
+    // Queried on demand: the letters are re-rendered when the language changes.
+    const letters = () => Array.from(name.querySelectorAll<HTMLElement>('.hero__glyph'));
     let raf = 0;
     let px = 0;
     let py = 0;
@@ -162,7 +167,7 @@ export function Hero({ ready }: { ready: boolean }) {
       raf = 0;
       field.setPointer(px, py);
       if (reduced) return;
-      for (const l of letters) {
+      for (const l of letters()) {
         const r = l.getBoundingClientRect();
         const dx = px - (r.left + r.width / 2);
         const dy = py - (r.top + r.height / 2);
@@ -188,7 +193,7 @@ export function Hero({ ready }: { ready: boolean }) {
     };
     const onLeave = () => {
       field.clearPointer();
-      letters.forEach((l) => {
+      letters().forEach((l) => {
         l.style.setProperty('--lift', '0px');
         l.style.setProperty('--heat', '0');
         l.textContent = l.dataset.char ?? '';
@@ -232,13 +237,15 @@ export function Hero({ ready }: { ready: boolean }) {
       <div className="container hero__grid">
         <div className="hero__copy">
           <p className="hero__hello t-com">
-            <span className="hero__hello-text">// привет, меня зовут</span>
+            <span key={lang} className="hero__hello-text">
+              {t.hero.hello}
+            </span>
           </p>
 
           <h1 id="hero-title" className="hero__title">
-            <span ref={nameRef} className="hero__name">
-              <Word text={profile.firstName} offset={0} />
-              <Word text={profile.lastName} offset={profile.firstName.length} />
+            <span ref={nameRef} className="hero__name" lang={lang}>
+              <Word key={`${lang}-first`} text={firstName} offset={0} />
+              <Word key={`${lang}-last`} text={lastName} offset={firstName.length} />
             </span>
             <span className="hero__role">
               <span className="t-com">&lt;</span>
@@ -250,32 +257,32 @@ export function Hero({ ready }: { ready: boolean }) {
             </span>
           </h1>
 
-          <p className="hero__lead">{profile.lead}</p>
+          <p className="hero__lead">{tr(profile.lead)}</p>
 
           <div className="hero__actions">
             <a className="btn" href="#projects">
-              Смотреть проекты
+              {t.hero.viewProjects}
             </a>
             <a className="btn btn--ghost" href={contacts.telegramHref} target="_blank" rel="noopener noreferrer">
               <TelegramIcon />
-              Написать в Telegram
+              {t.hero.telegram}
             </a>
           </div>
 
           <dl className="hero__meta">
             <div>
-              <dt>город</dt>
+              <dt>{t.hero.location}</dt>
               <dd>
-                {profile.city}, {profile.timezone}
+                {tr(profile.city)}, {profile.timezone}
               </dd>
             </div>
             <div>
-              <dt>опыт</dt>
-              <dd>4+ года, 30+ проектов</dd>
+              <dt>{t.hero.experience}</dt>
+              <dd>{t.hero.experienceValue}</dd>
             </div>
             <div>
-              <dt>специализация</dt>
-              <dd>{profile.focus}</dd>
+              <dt>{t.hero.focus}</dt>
+              <dd>{tr(profile.focus)}</dd>
             </div>
           </dl>
         </div>
@@ -287,7 +294,7 @@ export function Hero({ ready }: { ready: boolean }) {
                 <span className="window__file">portrait.webp</span>
                 <span className="window__lang">333×500</span>
               </div>
-              <img src={portrait} alt="Максим Малютин" width={333} height={500} fetchPriority="high" />
+              <img src={portrait} alt={`${firstName} ${lastName}`} width={333} height={500} fetchPriority="high" />
             </figure>
 
             <CodeWindow ready={ready} />
@@ -309,7 +316,7 @@ export function Hero({ ready }: { ready: boolean }) {
       </div>
 
       <a className="hero__scroll" href="#about">
-        <span className="t-com">scroll</span>
+        <span className="t-com">{t.hero.scroll}</span>
         <span className="hero__scroll-line" aria-hidden="true" />
       </a>
     </section>

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { contacts, profile } from '../data/profile';
+import { useLang } from '../i18n/lang';
 import { CheckIcon, CopyIcon, GithubIcon, MailIcon, PhoneIcon, TelegramIcon } from './Icons';
 import { SectionHead } from './SectionHead';
 import { Terminal } from './Terminal';
 import './Contacts.css';
 
 function CopyButton({ text }: { text: string }) {
+  const { t } = useLang();
   const [done, setDone] = useState(false);
   const copy = async () => {
     try {
@@ -21,18 +23,20 @@ function CopyButton({ text }: { text: string }) {
       type="button"
       className={`copy${done ? ' is-done' : ''}`}
       onClick={copy}
-      aria-label={done ? 'Скопировано' : 'Скопировать email'}
+      aria-label={done ? t.contacts.copied : t.contacts.copyEmail}
     >
       {done ? <CheckIcon /> : <CopyIcon />}
-      <span aria-live="polite">{done ? 'Скопировано' : 'Копировать'}</span>
+      <span aria-live="polite">{done ? t.contacts.copied : t.contacts.copy}</span>
     </button>
   );
 }
 
-const ROWS: { key: string; icon: ReactNode; label: string; value: string; href: string; external?: boolean; copy?: boolean }[] = [
+type RowLabel = string | ((t: ReturnType<typeof useLang>['t']) => string);
+
+const ROWS: { key: string; icon: ReactNode; label: RowLabel; value: string; href: string; external?: boolean; copy?: boolean }[] = [
   { key: 'telegram', icon: <TelegramIcon />, label: 'Telegram', value: contacts.telegram, href: contacts.telegramHref, external: true },
   { key: 'email', icon: <MailIcon />, label: 'Email', value: contacts.email, href: `mailto:${contacts.email}`, copy: true },
-  { key: 'phone', icon: <PhoneIcon />, label: 'Телефон', value: contacts.phone, href: contacts.phoneHref },
+  { key: 'phone', icon: <PhoneIcon />, label: (t) => t.contacts.phone, value: contacts.phone, href: contacts.phoneHref },
   {
     key: 'github',
     icon: <GithubIcon />,
@@ -44,6 +48,7 @@ const ROWS: { key: string; icon: ReactNode; label: string; value: string; href: 
 ];
 
 export function Contacts() {
+  const { t, tr } = useLang();
   const termWrap = useRef<HTMLDivElement>(null);
   const [termVisible, setTermVisible] = useState(false);
 
@@ -68,13 +73,7 @@ export function Contacts() {
   return (
     <section className="section contacts" id="contacts" aria-labelledby="contacts-title">
       <div className="container">
-        <SectionHead
-          id="contacts"
-          path={['contact.sh']}
-          prefix="$ ./contact.sh"
-          title="Контакты"
-          lead="Вопросы по проектам, коду или идеям — пишите. Быстрее всего отвечаю в Telegram."
-        />
+        <SectionHead id="contacts" path={['contact.sh']} prefix="$ ./contact.sh" title={t.contacts.title} lead={t.contacts.lead} />
 
         <div className="contacts__grid">
           <ul className="contacts__list">
@@ -88,7 +87,7 @@ export function Contacts() {
                   data-glow
                 >
                   <span className="contact__icon">{r.icon}</span>
-                  <span className="contact__label">{r.label}</span>
+                  <span className="contact__label">{typeof r.label === 'function' ? r.label(t) : r.label}</span>
                   <span className="contact__value">{r.value}</span>
                 </a>
                 {r.copy && <CopyButton text={r.value} />}
@@ -103,11 +102,11 @@ export function Contacts() {
 
         <footer className="footer">
           <p>
-            © {year} {profile.firstName} {profile.lastName}
+            © {year} {tr(profile.firstName)} {tr(profile.lastName)}
           </p>
-          <p className="t-com">// собрано на React + TypeScript, задеплоено через GitHub Actions</p>
+          <p className="t-com">{t.contacts.footerNote}</p>
           <a className="footer__top" href="#top">
-            наверх <span aria-hidden="true">↑</span>
+            {t.contacts.toTop} <span aria-hidden="true">↑</span>
           </a>
         </footer>
       </div>

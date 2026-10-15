@@ -1,3 +1,5 @@
+import type { Localized } from '../i18n/lang';
+
 export type Level = 'core' | 'confident' | 'familiar';
 
 export interface SkillGroup {
@@ -52,20 +54,68 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
-export const levelLabel: Record<Level, string> = {
-  core: 'основной стек',
-  confident: 'уверенно',
-  familiar: 'есть опыт',
+export const levelLabel: Record<Level, Localized> = {
+  core: { ru: 'основной стек', en: 'core stack' },
+  confident: { ru: 'уверенно', en: 'proficient' },
+  familiar: { ru: 'есть опыт', en: 'familiar' },
 };
 
 /** What I can build — the "scripts" of package.json. */
-export const capabilities = [
-  { cmd: 'spa', text: 'SPA и личные кабинеты на React + TypeScript с продуманной архитектурой состояния' },
-  { cmd: 'admin', text: 'Административные панели: таблицы, фильтры, формы, роли и управление данными' },
-  { cmd: 'analytics', text: 'Аналитические экраны и графики — прибыль, клиенты, продажи' },
-  { cmd: 'svg', text: 'Интерактивные SVG-схемы: от жилого комплекса до конкретной квартиры' },
-  { cmd: 'maps', text: 'Карты с сотнями объектов, фильтрами и расчётом инфраструктуры' },
-  { cmd: 'payments', text: 'Платёжные сценарии и интеграции с банковским эквайрингом' },
-  { cmd: 'api', text: 'REST API на Node.js, PostgreSQL/MySQL и интеграция с frontend' },
-  { cmd: 'perf', text: 'Оптимизация: PageSpeed 95+, лёгкие изображения, быстрые запросы' },
-] as const;
+export const capabilities: { cmd: string; text: Localized }[] = [
+  {
+    cmd: 'spa',
+    text: {
+      ru: 'SPA и личные кабинеты на React + TypeScript с продуманной архитектурой состояния',
+      en: 'SPAs and user dashboards in React + TypeScript with a well-structured state architecture',
+    },
+  },
+  {
+    cmd: 'admin',
+    text: {
+      ru: 'Административные панели: таблицы, фильтры, формы, роли и управление данными',
+      en: 'Admin panels: tables, filters, forms, roles, and data management',
+    },
+  },
+  {
+    cmd: 'analytics',
+    text: {
+      ru: 'Аналитические экраны и графики: прибыль, клиенты, продажи',
+      en: 'Analytics screens and charts: profit, customers, and sales',
+    },
+  },
+  {
+    cmd: 'svg',
+    text: {
+      ru: 'Интерактивные SVG-схемы: от жилого комплекса до конкретной квартиры',
+      en: 'Interactive SVG plans, from an entire residential complex down to a single apartment',
+    },
+  },
+  {
+    cmd: 'maps',
+    text: {
+      ru: 'Карты с сотнями объектов, фильтрами и расчётом инфраструктуры',
+      en: 'Maps with hundreds of properties, filters, and nearby amenities',
+    },
+  },
+  {
+    cmd: 'payments',
+    text: {
+      ru: 'Платёжные сценарии и интеграции с банковским эквайрингом',
+      en: 'Payment flows and bank acquiring integrations',
+    },
+  },
+  {
+    cmd: 'api',
+    text: {
+      ru: 'REST API на Node.js с PostgreSQL/MySQL и интеграция с frontend',
+      en: 'REST APIs with Node.js and PostgreSQL/MySQL, integrated with the frontend',
+    },
+  },
+  {
+    cmd: 'perf',
+    text: {
+      ru: 'Оптимизация: PageSpeed 95+, лёгкие изображения, быстрые запросы',
+      en: 'Performance: PageSpeed 95+, lightweight images, and fast queries',
+    },
+  },
+];

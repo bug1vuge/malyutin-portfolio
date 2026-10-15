@@ -1,11 +1,12 @@
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { capabilities, levelLabel, skillGroups, type Level } from '../data/skills';
+import { useLang } from '../i18n/lang';
 import { SectionHead } from './SectionHead';
 import './Skills.css';
 
 type Line = { key: string; content: ReactNode; level?: Level };
 
-function buildLines(): Line[] {
+function buildLines(versionNote: string): Line[] {
   const lines: Line[] = [
     { key: 'open', content: <span className="t-mut">{'{'}</span> },
     {
@@ -22,7 +23,7 @@ function buildLines(): Line[] {
       content: (
         <>
           {'  '}
-          <span className="t-fn">"version"</span>: <span className="t-str">"4.4.0"</span>, <span className="t-com">// 4 года 4 месяца</span>
+          <span className="t-fn">"version"</span>: <span className="t-str">"4.4.0"</span>, <span className="t-com">// {versionNote}</span>
         </>
       ),
     },
@@ -56,28 +57,23 @@ function buildLines(): Line[] {
   return lines;
 }
 
-const LINES = buildLines();
 const LEVELS: Level[] = ['core', 'confident', 'familiar'];
 
 export function Skills() {
+  const { t, tr } = useLang();
   const [focus, setFocus] = useState<Level | null>(null);
+  const lines = useMemo(() => buildLines(t.skills.version), [t]);
 
   return (
     <section className="section section--sunk skills" id="skills" aria-labelledby="skills-title">
       <div className="container">
-        <SectionHead
-          id="skills"
-          path={['package.json']}
-          prefix="$ cat"
-          title="Навыки и стек"
-          lead="Наведите на уровень, чтобы подсветить технологии."
-        />
+        <SectionHead id="skills" path={['package.json']} prefix="$ cat" title={t.skills.title} lead={t.skills.lead} />
 
         <div className="skills__grid">
           <div className="json window" data-reveal="up" data-focus={focus ?? undefined}>
             <div className="window__bar">
               <span className="window__file">package.json</span>
-              <div className="json__legend" role="group" aria-label="Уровень владения">
+              <div className="json__legend" role="group" aria-label={t.skills.levels}>
                 {LEVELS.map((l) => (
                   <button
                     key={l}
@@ -91,13 +87,13 @@ export function Skills() {
                     onClick={() => setFocus((f) => (f === l ? null : l))}
                   >
                     <span className="json__legend-dot" aria-hidden="true" />
-                    {levelLabel[l]}
+                    {tr(levelLabel[l])}
                   </button>
                 ))}
               </div>
             </div>
             <pre className="json__code">
-              {LINES.map((line, i) => (
+              {lines.map((line, i) => (
                 <span
                   key={line.key}
                   className={`json__line${line.level ? ` is-dep lvl-line--${line.level}` : ''}`}
@@ -116,7 +112,7 @@ export function Skills() {
           <div className="scripts">
             <h3 className="scripts__title" data-reveal="type">
               <span className="t-fn">"scripts"</span>
-              <span className="t-mut">: {'{'}</span> <span className="t-com">// что я делаю</span>
+              <span className="t-mut">: {'{'}</span> <span className="t-com">// {t.skills.scripts}</span>
             </h3>
             <ul className="scripts__list">
               {capabilities.map((c, i) => (
@@ -124,7 +120,7 @@ export function Skills() {
                   <code className="scripts__cmd">
                     <span className="t-com">$</span> npm run <span className="t-caret">{c.cmd}</span>
                   </code>
-                  <p className="scripts__text">{c.text}</p>
+                  <p className="scripts__text">{tr(c.text)}</p>
                 </li>
               ))}
             </ul>

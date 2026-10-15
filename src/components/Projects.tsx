@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent, type PointerEvent } from 'react';
 import { contacts } from '../data/profile';
 import { categories, projects, type Project, type ProjectCategory } from '../data/projects';
+import { useLang } from '../i18n/lang';
 import { isFinePointer } from '../lib/motion';
 import { ExternalIcon, GithubIcon } from './Icons';
 import { SectionHead } from './SectionHead';
@@ -67,6 +68,8 @@ const blockStub = (e: MouseEvent<HTMLAnchorElement>, url: string | null) => {
 };
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const { t, tr } = useLang();
+  const title = tr(project.title);
   const onMove = (e: PointerEvent<HTMLElement>) => {
     if (!isFinePointer()) return;
     const el = e.currentTarget;
@@ -96,19 +99,19 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
         <div className="project__media">
           {project.image ? (
-            <img src={`${import.meta.env.BASE_URL}${project.image}`} alt={`Скриншот проекта ${project.title}`} loading="lazy" />
+            <img src={`${import.meta.env.BASE_URL}${project.image}`} alt={t.projects.screenshot(title)} loading="lazy" />
           ) : (
             <CodePreview id={project.id} />
           )}
         </div>
 
         <div className="project__body">
-          <h3 className="project__title">{project.title}</h3>
-          <p className="project__desc">{project.description}</p>
-          <ul className="project__stack" aria-label="Стек">
+          <h3 className="project__title">{title}</h3>
+          <p className="project__desc">{tr(project.description)}</p>
+          <ul className="project__stack" aria-label={t.projects.stack}>
             {project.stack.map((s) => (
-              <li key={s} className="chip">
-                {s}
+              <li key={tr(s)} className="chip">
+                {tr(s)}
               </li>
             ))}
           </ul>
@@ -125,13 +128,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               onClick={(e) => blockStub(e, project.demoUrl)}
             >
               <ExternalIcon />
-              Открыть продукт
+              {t.projects.demo}
             </a>
           )}
           {project.repoUrl && (
             <a className="project__link" href={project.repoUrl} target="_blank" rel="noopener noreferrer">
               <GithubIcon />
-              Код на GitHub
+              {t.projects.repo}
             </a>
           )}
         </div>
@@ -141,6 +144,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 }
 
 export function Projects() {
+  const { t, tr } = useLang();
   const [filter, setFilter] = useState<ProjectCategory | 'all'>('all');
   const [seen, setSeen] = useState(false);
   const gridWrap = useRef<HTMLDivElement>(null);
@@ -167,15 +171,9 @@ export function Projects() {
   return (
     <section className="section projects" id="projects" aria-labelledby="projects-title">
       <div className="container">
-        <SectionHead
-          id="projects"
-          path={['projects']}
-          prefix="$ ls"
-          title="Проекты"
-          lead="Избранные работы: у каждой — ссылка на живой продукт и на исходный код."
-        />
+        <SectionHead id="projects" path={['projects']} prefix="$ ls" title={t.projects.title} lead={t.projects.lead} />
 
-        <div className="filters" role="toolbar" aria-label="Фильтр проектов" data-reveal="up">
+        <div className="filters" role="toolbar" aria-label={t.projects.filter} data-reveal="up">
           <span className="filters__prompt t-com" aria-hidden="true">
             --filter=
           </span>
@@ -189,7 +187,7 @@ export function Projects() {
                 aria-pressed={filter === c.key}
                 onClick={() => setFilter(c.key)}
               >
-                {c.label}
+                {tr(c.label)}
                 <span className="filters__count">{count(c.key)}</span>
               </button>
             ))}
@@ -203,7 +201,7 @@ export function Projects() {
             <li className="project-cell" style={{ '--i': visible.length } as CSSProperties}>
               <a className="project project--more" href={contacts.githubHref} target="_blank" rel="noopener noreferrer" data-glow>
                 <GithubIcon className="project__more-icon" />
-                <span className="project__more-title">Остальной код — на GitHub</span>
+                <span className="project__more-title">{t.projects.moreTitle}</span>
                 <span className="project__more-handle t-str">github.com/{contacts.github}</span>
               </a>
             </li>

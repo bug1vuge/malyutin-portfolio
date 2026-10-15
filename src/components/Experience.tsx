@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { jobs, type Job } from '../data/experience';
+import { useLang } from '../i18n/lang';
 import { ChevronIcon, ExternalIcon } from './Icons';
 import { SectionHead } from './SectionHead';
 import './Experience.css';
@@ -8,6 +9,7 @@ const REFS = ['HEAD -> main', 'tag: v2.0', 'tag: v1.0'];
 const VISIBLE = 4;
 
 function Commit({ job, index }: { job: Job; index: number }) {
+  const { t, tr } = useLang();
   const [open, setOpen] = useState(false);
   const listId = `achievements-${job.hash}`;
   const rest = job.achievements.length - VISIBLE;
@@ -19,30 +21,30 @@ function Commit({ job, index }: { job: Job; index: number }) {
       <p className="commit__meta">
         <span className="t-caret">commit {job.hash}</span> <span className="commit__ref">({REFS[index] ?? 'tag'})</span>
         <br />
-        <span className="t-com">Date: </span>
-        <time>{job.period}</time>
-        <span className="t-com">, {job.duration}</span>
+        <span className="t-com">{t.experience.date}: </span>
+        <time>{tr(job.period)}</time>
+        <span className="t-com">, {tr(job.duration)}</span>
       </p>
 
       <div className="commit__card" data-glow>
         <header className="commit__head">
           <h3>
-            {job.role}
+            {tr(job.role)}
             <span className="commit__at t-com"> @ </span>
             <a className="commit__company" href={job.url} target="_blank" rel="noopener noreferrer">
               {job.company}
               <ExternalIcon />
             </a>
           </h3>
-          <p className="commit__city">{job.city}</p>
+          <p className="commit__city">{tr(job.city)}</p>
         </header>
 
-        <p className="commit__summary">{job.summary}</p>
+        <p className="commit__summary">{tr(job.summary)}</p>
 
         <dl className="commit__metrics">
           {job.metrics.map((m) => (
-            <div key={m.label}>
-              <dt>{m.label}</dt>
+            <div key={m.value}>
+              <dt>{tr(m.label)}</dt>
               <dd>{m.value}</dd>
             </div>
           ))}
@@ -54,7 +56,7 @@ function Commit({ job, index }: { job: Job; index: number }) {
               <span className="commit__plus" aria-hidden="true">
                 +
               </span>
-              {a}
+              {tr(a)}
             </li>
           ))}
         </ul>
@@ -62,14 +64,14 @@ function Commit({ job, index }: { job: Job; index: number }) {
         {rest > 0 && (
           <button className="commit__toggle" type="button" aria-expanded={open} aria-controls={listId} onClick={() => setOpen((v) => !v)}>
             <ChevronIcon />
-            {open ? 'Свернуть' : `Ещё ${rest} ${rest === 1 ? 'изменение' : rest < 5 ? 'изменения' : 'изменений'}`}
+            {open ? t.experience.collapse : t.experience.more(rest)}
           </button>
         )}
 
-        <ul className="commit__stack" aria-label="Технологии">
+        <ul className="commit__stack" aria-label={t.experience.stack}>
           {job.stack.map((s) => (
-            <li key={s} className="chip">
-              {s}
+            <li key={tr(s)} className="chip">
+              {tr(s)}
             </li>
           ))}
         </ul>
@@ -80,6 +82,7 @@ function Commit({ job, index }: { job: Job; index: number }) {
 
 /** Work history rendered as `git log --graph`; the branch line fills as you scroll. */
 export function Experience() {
+  const { t } = useLang();
   const listRef = useRef<HTMLOListElement>(null);
 
   useEffect(() => {
@@ -116,13 +119,7 @@ export function Experience() {
   return (
     <section className="section section--sunk experience" id="experience" aria-labelledby="experience-title">
       <div className="container">
-        <SectionHead
-          id="experience"
-          path={['experience.log']}
-          prefix="$ git log"
-          title="Опыт работы"
-          lead="4 года 4 месяца коммерческой разработки. Свежие коммиты сверху."
-        />
+        <SectionHead id="experience" path={['experience.log']} prefix="$ git log" title={t.experience.title} lead={t.experience.lead} />
 
         <ol ref={listRef} className="git-log">
           {jobs.map((job, i) => (
@@ -133,7 +130,7 @@ export function Experience() {
             <p className="commit__meta">
               <span className="t-caret">commit 0000000</span> <span className="commit__ref">(initial commit)</span>
               <br />
-              <span className="t-com">2022 — первая коммерческая строка кода</span>
+              <span className="t-com">{t.experience.root}</span>
             </p>
           </li>
         </ol>

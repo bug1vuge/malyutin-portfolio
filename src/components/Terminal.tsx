@@ -2,8 +2,8 @@ import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type R
 import { jobs } from '../data/experience';
 import { contacts, profile } from '../data/profile';
 import { skillGroups } from '../data/skills';
-
-type Entry = { id: number; cmd?: string; out: ReactNode };
+import { useLang } from '../i18n/lang';
+import type { Dictionary } from '../i18n/ui';
 
 const PROMPT = 'guest@malyutin:~$';
 
@@ -15,35 +15,42 @@ const link = (href: string, text: string) => (
 
 const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
-const COMMANDS: Record<string, { help: string; run: () => ReactNode }> = {
+type Ctx = ReturnType<typeof useLang>;
+type CommandName = keyof Dictionary['terminal']['help'];
+
+interface Command {
+  /** Rendered with the current language, so old output switches language too. */
+  render: (ctx: Ctx) => ReactNode;
+  /** Side effect, run once when the command is entered. */
+  effect?: () => void;
+}
+
+const COMMANDS: Record<CommandName, Command> = {
   help: {
-    help: 'список команд',
-    run: () => (
+    render: ({ t }) => (
       <>
-        {Object.entries(COMMANDS).map(([name, c]) => (
+        {(Object.keys(COMMANDS) as CommandName[]).map((name) => (
           <div key={name}>
-            <span className="t-caret">{name.padEnd(11, ' ')}</span>
-            <span className="t-com">{c.help}</span>
+            <span className="t-caret">{name.padEnd(12, ' ')}</span>
+            <span className="t-com">{t.terminal.help[name]}</span>
           </div>
         ))}
       </>
     ),
   },
   whoami: {
-    help: 'кто я',
-    run: () => (
+    render: ({ tr }) => (
       <>
-        {profile.firstName} {profile.lastName} — {profile.role} ({profile.stack}).
+        {tr(profile.firstName)} {tr(profile.lastName)} — {tr(profile.role)} ({profile.stack}).
         <br />
         <span className="t-com">
-          {profile.city}, {profile.timezone}. {profile.focus}.
+          {tr(profile.city)}, {profile.timezone}. {tr(profile.focus)}.
         </span>
       </>
     ),
   },
   contacts: {
-    help: 'все способы связи',
-    run: () => (
+    render: () => (
       <>
         <div>email {link(`mailto:${contacts.email}`, contacts.email)}</div>
         <div>telegram {link(contacts.telegramHref, contacts.telegram)}</div>
@@ -53,8 +60,7 @@ const COMMANDS: Record<string, { help: string; run: () => ReactNode }> = {
     ),
   },
   stack: {
-    help: 'основной стек',
-    run: () =>
+    render: () =>
       skillGroups
         .flatMap((g) => g.items)
         .filter((i) => i.level === 'core')
@@ -62,41 +68,59 @@ const COMMANDS: Record<string, { help: string; run: () => ReactNode }> = {
         .join(', '),
   },
   experience: {
-    help: 'краткий опыт',
-    run: () => (
+    render: ({ tr }) => (
       <>
         {jobs.map((j) => (
           <div key={j.hash}>
-            <span className="t-caret">{j.hash}</span> {j.role} @ {j.company} <span className="t-com">({j.period})</span>
+            <span className="t-caret">{j.hash}</span> {tr(j.role)} @ {j.company} <span className="t-com">({tr(j.period)})</span>
           </div>
         ))}
       </>
     ),
   },
   projects: {
-    help: 'перейти к проектам',
-    run: () => {
-      window.setTimeout(() => scrollTo('projects'), 350);
-      return <span className="t-com">cd ~/projects …</span>;
-    },
+    effect: () => window.setTimeout(() => scrollTo('projects'), 350),
+    render: () => <span className="t-com">cd ~/projects …</span>,
   },
   github: {
-    help: 'открыть мой GitHub',
-    run: () => {
-      window.open(contacts.githubHref, '_blank', 'noopener,noreferrer');
-      return <>Открываю {link(contacts.githubHref, `github.com/${contacts.github}`)} …</>;
-    },
+    effect: () => window.open(contacts.githubHref, '_blank', 'noopener,noreferrer'),
+    render: ({ t }) => (
+      <>
+        {t.terminal.opening} {link(contacts.githubHref, `github.com/${contacts.github}`)} …
+      </>
+    ),
   },
-  clear: { help: 'очистить экран', run: () => null },
+  clear: { render: () => null },
 };
+
+const isCommand = (name: string): name is CommandName => name in COMMANDS;
+
+type Entry = { id: number; cmd?: string; name?: string };
 
 let uid = 0;
 
+function Output({ name, ctx }: { name: string; ctx: Ctx }) {
+  const { t } = ctx;
+  if (name === 'sudo') {
+    return (
+      <span className="t-num">
+        {t.terminal.sudo} {link(contacts.telegramHref, contacts.telegram)}
+      </span>
+    );
+  }
+  if (isCommand(name)) return <>{COMMANDS[name].render(ctx)}</>;
+  return (
+    <span>
+      <span className="t-num">{t.terminal.notFound}</span> {name}. {t.terminal.tryHelp} <span className="t-caret">help</span>
+    </span>
+  );
+}
+
 /** A small working shell: type `help` to see what it can do. */
 export function Terminal({ autoplay }: { autoplay: boolean }) {
-  const [history, setHistory] = useState<Entry[]>([
-    { id: uid++, out: <span className="t-com">Введите help, чтобы увидеть команды. Tab дополняет, ↑ ↓ — история.</span> },
-  ]);
+  const ctx = useLang();
+  const { t } = ctx;
+  const [history, setHistory] = useState<Entry[]>([{ id: uid++ }]);
   const [value, setValue] = useState('');
   const [past, setPast] = useState<string[]>([]);
   const [cursor, setCursor] = useState(-1);
@@ -112,17 +136,8 @@ export function Terminal({ autoplay }: { autoplay: boolean }) {
       setHistory([]);
       return;
     }
-    const sudo = name === 'sudo';
-    const out = sudo ? (
-      <span className="t-num">Permission granted. Но проще написать в Telegram: {link(contacts.telegramHref, contacts.telegram)}</span>
-    ) : COMMANDS[name] ? (
-      COMMANDS[name].run()
-    ) : (
-      <span>
-        <span className="t-num">command not found:</span> {name}. Попробуйте <span className="t-caret">help</span>
-      </span>
-    );
-    setHistory((h) => [...h, { id: uid++, cmd, out }]);
+    if (isCommand(name)) COMMANDS[name].effect?.();
+    setHistory((h) => [...h, { id: uid++, cmd, name }]);
     setPast((p) => [cmd, ...p].slice(0, 30));
     setCursor(-1);
   };
@@ -191,12 +206,18 @@ export function Terminal({ autoplay }: { autoplay: boolean }) {
       <div className="term__body" ref={bodyRef} aria-live="polite">
         {history.map((h) => (
           <div key={h.id} className="term__entry">
-            {h.cmd !== undefined && (
-              <div className="term__cmd">
-                <span className="term__prompt">{PROMPT}</span> {h.cmd}
-              </div>
+            {h.cmd === undefined ? (
+              <div className="term__out t-com">{t.terminal.intro}</div>
+            ) : (
+              <>
+                <div className="term__cmd">
+                  <span className="term__prompt">{PROMPT}</span> {h.cmd}
+                </div>
+                <div className="term__out">
+                  <Output name={h.name ?? ''} ctx={ctx} />
+                </div>
+              </>
             )}
-            {h.out && <div className="term__out">{h.out}</div>}
           </div>
         ))}
         <form className="term__form" onSubmit={onSubmit}>
@@ -214,7 +235,7 @@ export function Terminal({ autoplay }: { autoplay: boolean }) {
             autoCapitalize="off"
             spellCheck={false}
             enterKeyHint="send"
-            aria-label="Команда терминала"
+            aria-label={t.terminal.inputLabel}
           />
         </form>
       </div>

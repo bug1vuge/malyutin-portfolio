@@ -25,6 +25,8 @@
 | Контакты     | `contact.sh`       | Рабочий терминал: `help`, `whoami`, `contacts`, `github`…                |
 
 Плюс прелоадер-терминал, миникарта справа (на широких экранах) и статус-бар.
+Сайт двуязычный (RU / EN): язык определяется по браузеру, запоминается после переключения
+и может быть задан ссылкой — `?lang=en` или `?lang=ru`.
 Все анимации уважают `prefers-reduced-motion`.
 
 ## Запуск
@@ -44,8 +46,11 @@ npm run format     # prettier
 ```ts
 {
   id: 'floxy-admin',
-  title: 'FLOXY — админ-панель',
-  description: 'Управление заказами, аналитика прибыли и платёжные интеграции.',
+  title: { ru: 'FLOXY — админ-панель', en: 'FLOXY admin panel' },
+  description: {
+    ru: 'Управление заказами, аналитика прибыли и платёжные интеграции.',
+    en: 'Order management, profit analytics, and payment integrations.',
+  },
   category: 'admin',            // spa | admin | fullstack | landing
   stack: ['React', 'TypeScript', 'Redux Toolkit', 'Ant Design'],
   demoUrl: 'https://…',         // null — кнопка скроется
@@ -55,9 +60,13 @@ npm run format     # prettier
 }
 ```
 
+Текстовые поля (`title`, `description`, элементы `stack`) можно писать одной строкой, если текст
+одинаков на обоих языках, или парой `{ ru: '…', en: '…' }`.
+
 Скриншоты кладите в `public/projects/` (лучше `.webp`, 1600×1000).
 
 Остальной контент: `src/data/profile.ts` (о себе, контакты), `src/data/experience.ts`, `src/data/skills.ts`.
+Тексты интерфейса (кнопки, заголовки, терминал) — в `src/i18n/ui.ts`.
 
 ## Деплой
 

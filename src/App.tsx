@@ -10,9 +10,11 @@ import { Preloader } from './components/Preloader';
 import { Projects } from './components/Projects';
 import { Skills } from './components/Skills';
 import { StatusBar } from './components/StatusBar';
+import { useLang } from './i18n/lang';
 import { initParallax, initPointerGlow, initReveal } from './lib/motion';
 
 export function App() {
+  const { t } = useLang();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export function App() {
   return (
     <>
       <a className="skip-link" href="#main">
-        Перейти к содержимому
+        {t.skipLink}
       </a>
       <Preloader onDone={() => setReady(true)} />
       <Header />

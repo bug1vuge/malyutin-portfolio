@@ -41,7 +41,15 @@
   font-family: var(--font-mono);
   font-size: var(--fs-code);
   margin-bottom: 1.25rem;
+}
+
+.hero__hello-text {
+  display: inline-block;
   animation: hero-type 0.8s steps(22) 0.05s both;
+}
+
+.hero:not(.is-ready) .hero__hello-text {
+  animation-play-state: paused;
 }
 
 @keyframes hero-type {
