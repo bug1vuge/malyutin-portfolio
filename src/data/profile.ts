@@ -1,11 +1,11 @@
 export const profile = {
   firstName: 'Максим',
   lastName: 'Малютин',
-  role: 'Middle Frontend Developer',
+  role: 'Frontend-разработчик',
   stack: 'React / TypeScript',
   city: 'Томск',
   timezone: 'UTC+7',
-  workFormat: 'Удалённо, полная занятость',
+  focus: 'SPA, админ-панели, data-driven интерфейсы',
   lead: 'Делаю SPA, административные панели и сложные data-driven интерфейсы. Веду задачу целиком — от требований и архитектуры до API, тестов и релиза в production.',
   about: [
     'Frontend-разработчик с 4+ годами коммерческого опыта и более чем 30 реализованными проектами для компаний из России, Европы и США. Основной стек — React, TypeScript, Redux Toolkit, React Router, REST API, Vite и Webpack.',

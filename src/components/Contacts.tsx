@@ -72,8 +72,8 @@ export function Contacts() {
           id="contacts"
           path={['contact.sh']}
           prefix="$ ./contact.sh"
-          title="Давайте поработаем вместе"
-          lead="Ищу позицию Middle Frontend-разработчика на удалёнке. Быстрее всего отвечаю в Telegram."
+          title="Контакты"
+          lead="Вопросы по проектам, коду или идеям — пишите. Быстрее всего отвечаю в Telegram."
         />
 
         <div className="contacts__grid">

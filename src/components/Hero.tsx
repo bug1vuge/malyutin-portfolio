@@ -17,7 +17,7 @@ const SNIPPET: [string, string][][] = [
   ],
   [
     ['tx', '  role: '],
-    ['str', "'Middle Frontend'"],
+    ['str', "'Frontend Developer'"],
     ['tx', ','],
   ],
   [
@@ -39,8 +39,8 @@ const SNIPPET: [string, string][][] = [
     ['tx', ','],
   ],
   [
-    ['tx', '  remote: '],
-    ['kw', 'true'],
+    ['tx', '  backend: '],
+    ['str', "'Node.js'"],
     ['tx', ','],
   ],
   [['tx', '};']],
@@ -242,9 +242,9 @@ export function Hero({ ready }: { ready: boolean }) {
             </span>
             <span className="hero__role">
               <span className="t-com">&lt;</span>
-              <span className="t-fn">Frontend</span> <span className="t-kw">level</span>
+              <span className="t-fn">Developer</span> <span className="t-kw">focus</span>
               <span className="t-com">=</span>
-              <span className="t-str">"middle"</span> <span className="t-kw">stack</span>
+              <span className="t-str">"frontend"</span> <span className="t-kw">stack</span>
               <span className="t-com">=</span>
               <span className="t-str">"{profile.stack}"</span> <span className="t-com">/&gt;</span>
             </span>
@@ -270,15 +270,12 @@ export function Hero({ ready }: { ready: boolean }) {
               </dd>
             </div>
             <div>
-              <dt>формат</dt>
-              <dd>{profile.workFormat}</dd>
+              <dt>опыт</dt>
+              <dd>4+ года, 30+ проектов</dd>
             </div>
             <div>
-              <dt>статус</dt>
-              <dd>
-                <span className="hero__status-dot" aria-hidden="true" />
-                Открыт к предложениям
-              </dd>
+              <dt>специализация</dt>
+              <dd>{profile.focus}</dd>
             </div>
           </dl>
         </div>

@@ -36,7 +36,7 @@ const COMMANDS: Record<string, { help: string; run: () => ReactNode }> = {
         {profile.firstName} {profile.lastName} — {profile.role} ({profile.stack}).
         <br />
         <span className="t-com">
-          {profile.city}, {profile.timezone}. {profile.workFormat}.
+          {profile.city}, {profile.timezone}. {profile.focus}.
         </span>
       </>
     ),
@@ -80,14 +80,12 @@ const COMMANDS: Record<string, { help: string; run: () => ReactNode }> = {
       return <span className="t-com">cd ~/projects …</span>;
     },
   },
-  hire: {
-    help: 'пригласить на собеседование',
-    run: () => (
-      <>
-        <span className="t-str">✔</span> Отличная идея. Напишите мне: {link(contacts.telegramHref, contacts.telegram)} или{' '}
-        {link(`mailto:${contacts.email}`, contacts.email)} — отвечаю в течение дня.
-      </>
-    ),
+  github: {
+    help: 'открыть мой GitHub',
+    run: () => {
+      window.open(contacts.githubHref, '_blank', 'noopener,noreferrer');
+      return <>Открываю {link(contacts.githubHref, `github.com/${contacts.github}`)} …</>;
+    },
   },
   clear: { help: 'очистить экран', run: () => null },
 };
