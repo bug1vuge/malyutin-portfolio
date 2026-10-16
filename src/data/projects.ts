@@ -277,25 +277,26 @@ export const projects: Project[] = [
       labels: ['web'],
     },
   },
-  {
-    id: 'dambiev',
-    title: { ru: 'Леонид Дамбиев — ведущий', en: 'Leonid Dambiev, event host' },
-    description: {
-      ru: 'Сайт ведущего мероприятий. Танцующие буквы и зеркальный шар на canvas, которые реагируют на курсор, параллакс, пререндер для SEO и форма заявки с валидацией.',
-      en: 'The website of an event host. Cursor-reactive dancing letters and a canvas mirror ball, parallax, prerendering for SEO, and a booking form with validation.',
-    },
-    category: 'sites',
-    domain: 'bug1vuge.github.io',
-    // Taken from the project's package.json.
-    stack: ['React', 'TypeScript', 'Vite', 'Canvas API', { ru: 'SSR-пререндер', en: 'SSR prerendering' }],
-    demoUrl: 'https://bug1vuge.github.io/dambiev-site/',
-    repoUrl: 'https://github.com/bug1vuge/dambiev-site',
-    cover: {
-      scene: 'event',
-      tone: 'caret',
-      headline: 'Леонид',
-      kicker: 'ведущий мероприятий',
-      labels: ['Дамбиев', 'Забронировать дату', 'свадьбы ✦ юбилеи ✦ корпоративы ✦ выпускные ✦'],
-    },
-  },
+  // Временно скрыт. Чтобы вернуть проект в портфолио, раскомментируйте блок ниже.
+  // {
+  //   id: 'dambiev',
+  //   title: { ru: 'Леонид Дамбиев — ведущий', en: 'Leonid Dambiev, event host' },
+  //   description: {
+  //     ru: 'Сайт ведущего мероприятий. Танцующие буквы и зеркальный шар на canvas, которые реагируют на курсор, параллакс, пререндер для SEO и форма заявки с валидацией.',
+  //     en: 'The website of an event host. Cursor-reactive dancing letters and a canvas mirror ball, parallax, prerendering for SEO, and a booking form with validation.',
+  //   },
+  //   category: 'sites',
+  //   domain: 'bug1vuge.github.io',
+  //   // Taken from the project's package.json.
+  //   stack: ['React', 'TypeScript', 'Vite', 'Canvas API', { ru: 'SSR-пререндер', en: 'SSR prerendering' }],
+  //   demoUrl: 'https://bug1vuge.github.io/dambiev-site/',
+  //   repoUrl: 'https://github.com/bug1vuge/dambiev-site',
+  //   cover: {
+  //     scene: 'event',
+  //     tone: 'caret',
+  //     headline: 'Леонид',
+  //     kicker: 'ведущий мероприятий',
+  //     labels: ['Дамбиев', 'Забронировать дату', 'свадьбы ✦ юбилеи ✦ корпоративы ✦ выпускные ✦'],
+  //   },
+  // },
 ];
