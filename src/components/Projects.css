@@ -288,19 +288,24 @@
   }
 }
 
-/* "More on GitHub": a full-width strip closing the grid */
+/* "More on GitHub" closes the grid. When the last row is full it is a
+   slim strip; when the row has room it grows into a card with public repos. */
 .project-cell--more {
   grid-column: 1 / -1;
 }
 
 .project--more {
-  flex-direction: row;
+  gap: 0;
+  background: repeating-linear-gradient(-45deg, transparent 0 14px, rgba(255, 255, 255, 0.018) 14px 15px), var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+
+.more__head {
+  display: flex;
   align-items: center;
   gap: 1.25rem;
   padding: 1.4rem 1.6rem;
   text-decoration: none;
-  background: repeating-linear-gradient(-45deg, transparent 0 14px, rgba(255, 255, 255, 0.018) 14px 15px), var(--bg);
-  box-shadow: inset 0 0 0 1px var(--line-2);
 }
 
 .project__more-icon {
@@ -313,7 +318,7 @@
     color 0.3s;
 }
 
-.project--more:hover .project__more-icon {
+.more__head:hover .project__more-icon {
   color: var(--text);
   transform: rotate(-12deg) scale(1.1);
 }
@@ -345,13 +350,143 @@
   transition: transform 0.4s var(--ease-bounce);
 }
 
-.project--more:hover .project__more-arrow {
+.more__head:hover .project__more-arrow {
   transform: translate(4px, -4px);
+}
+
+/* Repo list: hidden in the strip, shown when the card has room */
+.repos,
+.repos__cmd {
+  display: none;
+}
+
+.repos__cmd {
+  margin-top: auto;
+  padding: 0 1.6rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-code);
+  color: var(--text);
+}
+
+.repo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.2rem 1rem;
+  padding: 0.95rem 1.6rem;
+  border-top: 1px solid var(--line);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.repo:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.repo__name {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fn);
+}
+
+.repo:hover .repo__name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.repo__about {
+  grid-column: 1;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+.repo__lang {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.repo__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.repo__dot--fn {
+  background: var(--fn);
+}
+.repo__dot--caret {
+  background: var(--caret);
+}
+
+/* The card version */
+.project-cell--more:is([data-r3='1'], [data-r3='2']) {
+  grid-column: span 2;
+}
+
+.project-cell--more[data-r3='2'] {
+  grid-column: span 1;
+}
+
+.project-cell--more:is([data-r3='1'], [data-r3='2']) .more__head {
+  align-items: flex-start;
+  padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.project-cell--more:is([data-r3='1'], [data-r3='2']) .project__more-text {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.project-cell--more:is([data-r3='1'], [data-r3='2']) .project__more-title {
+  font-size: clamp(1.35rem, 1.1rem + 0.7vw, 1.75rem);
+}
+
+.project-cell--more:is([data-r3='1'], [data-r3='2']) :is(.repos, .repos__cmd) {
+  display: block;
 }
 
 @media (max-width: 1023px) {
   .projects__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* Two columns: reset the 3-column rules, then fill an odd last row. */
+  .project-cell--more[data-r3] {
+    grid-column: 1 / -1;
+  }
+  .project-cell--more[data-r3] .more__head {
+    align-items: center;
+    padding: 1.4rem 1.6rem;
+  }
+  .project-cell--more[data-r3] .project__more-text {
+    flex-direction: row;
+    align-items: baseline;
+  }
+  .project-cell--more[data-r3] .project__more-title {
+    font-size: 1.25rem;
+  }
+  .project-cell--more[data-r3] :is(.repos, .repos__cmd) {
+    display: none;
+  }
+  .project-cell--more[data-r2='1'] {
+    grid-column: span 1;
+  }
+  .project-cell--more[data-r2='1'] .more__head {
+    align-items: flex-start;
+    padding: 1.75rem 1.75rem 1.5rem;
+  }
+  .project-cell--more[data-r2='1'] .project__more-text {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .project-cell--more[data-r2='1'] :is(.repos, .repos__cmd) {
+    display: block;
   }
 }
 
@@ -359,7 +494,10 @@
   .projects__grid {
     grid-template-columns: minmax(0, 1fr);
   }
-  .project--more {
-    padding: 1.2rem;
+  .project-cell--more[data-r2] {
+    grid-column: 1 / -1;
+  }
+  .project-cell--more[data-r2] :is(.repos, .repos__cmd) {
+    display: block;
   }
 }

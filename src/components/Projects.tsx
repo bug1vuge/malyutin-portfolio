@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { contacts } from '../data/profile';
-import { categories, categoryTag, projects, type Project, type ProjectCategory } from '../data/projects';
+import { categories, categoryTag, projects, publicRepos, type Project, type ProjectCategory } from '../data/projects';
 import { useLang } from '../i18n/lang';
 import { isFinePointer } from '../lib/motion';
 import { ExternalIcon, GithubIcon, LockIcon } from './Icons';
@@ -114,6 +114,8 @@ export function Projects() {
   }, []);
 
   const visible = filter === 'all' ? projects : projects.filter((p) => p.category === filter);
+  // Cards outside the full-width featured one; the GitHub card fills whatever is left of their last row.
+  const regular = visible.filter((p, i) => !(p.featured && i === 0)).length;
   const count = (key: ProjectCategory | 'all') => (key === 'all' ? projects.length : projects.filter((p) => p.category === key).length);
 
   return (
@@ -146,17 +148,41 @@ export function Projects() {
             {visible.map((p, i) => (
               <ProjectCard key={p.id} project={p} index={i} featured={Boolean(p.featured) && i === 0} />
             ))}
-            <li className="project-cell project-cell--more" style={{ '--i': visible.length } as CSSProperties}>
-              <a className="project project--more" href={contacts.githubHref} target="_blank" rel="noopener noreferrer" data-glow>
-                <GithubIcon className="project__more-icon" />
-                <span className="project__more-text">
-                  <span className="project__more-title">{t.projects.moreTitle}</span>
-                  <span className="project__more-handle t-str">github.com/{contacts.github}</span>
-                </span>
-                <span className="project__more-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </a>
+            <li
+              className="project-cell project-cell--more"
+              data-r3={regular % 3}
+              data-r2={regular % 2}
+              style={{ '--i': visible.length } as CSSProperties}
+            >
+              <div className="project project--more" data-glow>
+                <a className="more__head" href={contacts.githubHref} target="_blank" rel="noopener noreferrer">
+                  <GithubIcon className="project__more-icon" />
+                  <span className="project__more-text">
+                    <span className="project__more-title">{t.projects.moreTitle}</span>
+                    <span className="project__more-handle t-str">github.com/{contacts.github}</span>
+                  </span>
+                  <span className="project__more-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+                <p className="repos__cmd" aria-hidden="true">
+                  <span className="t-com">$</span> gh repo list {contacts.github} <span className="t-com">--public</span>
+                </p>
+                <ul className="repos" aria-label={t.projects.repos}>
+                  {publicRepos.map((r) => (
+                    <li key={r.name}>
+                      <a className="repo" href={`${contacts.githubHref}/${r.name}`} target="_blank" rel="noopener noreferrer">
+                        <span className="repo__name">{r.name}</span>
+                        <span className="repo__about">{tr(r.about)}</span>
+                        <span className="repo__lang">
+                          <span className={`repo__dot repo__dot--${r.tone}`} aria-hidden="true" />
+                          {r.lang}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </li>
           </ul>
         </div>

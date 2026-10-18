@@ -319,6 +319,35 @@
   transform: translate(-6px, -6px);
 }
 
+/* Car rental */
+.cv-car-body {
+  fill: #2b3a52;
+  stroke: var(--cv-strong);
+}
+.cv-car-glass {
+  fill: color-mix(in srgb, var(--acc) 30%, #16202f);
+}
+.cv-wheel {
+  fill: #0b111a;
+  stroke: var(--cv-strong);
+  stroke-width: 2;
+}
+.cv-shadow {
+  fill: rgba(0, 0, 0, 0.35);
+}
+.cv-go {
+  fill: var(--str);
+}
+.cv-car,
+.cv-streaks {
+  transition:
+    transform 0.8s var(--ease-out),
+    opacity 0.5s;
+}
+.cv-streaks {
+  opacity: 0;
+}
+
 /* ───── Motion: everything wakes up on hover ───── */
 .cv-lift,
 .cv-float,
@@ -374,6 +403,15 @@
 
 .project:hover .cv-ray {
   animation: cv-ray 1.8s ease-in-out infinite;
+}
+
+.project:hover .cv-car {
+  transform: translateX(10px);
+}
+
+.project:hover .cv-streaks {
+  opacity: 1;
+  transform: translateX(-6px);
 }
 
 @keyframes cv-pulse {

@@ -21,7 +21,7 @@ import type { Localized, MaybeLocalized } from '../i18n/lang';
 
 export type ProjectCategory = 'realestate' | 'saas' | 'sites';
 
-export type CoverScene = 'dashboard' | 'landing' | 'genplan' | 'facade' | 'chess' | 'catalog' | 'village' | 'studio' | 'event';
+export type CoverScene = 'dashboard' | 'landing' | 'genplan' | 'facade' | 'chess' | 'catalog' | 'village' | 'studio' | 'event' | 'carrent';
 export type CoverTone = 'kw' | 'fn' | 'str' | 'num' | 'caret';
 
 export interface ProjectCover {
@@ -135,6 +135,27 @@ export const projects: Project[] = [
       headline: 'Терминал оплат и CRM',
       kicker: 'FloxyCRM',
       labels: ['Начать бесплатно', 'Счёт на оплату', 'Оплатить', 'Оплачен', 'Выкуплен', 'В пути'],
+    },
+  },
+  {
+    id: 'rent-car',
+    title: { ru: 'RentCar — аренда авто', en: 'RentCar car rental' },
+    description: {
+      ru: 'Прототип сервиса аренды авто в Томске с интерфейсом в стиле экрана автомобиля. Каталог с фильтрами и календарём занятости, бронирование в 4 шага с подписью договора пальцем, имитация онлайн-оплаты и панель владельца с диаграммой Ганта. Работает офлайн как PWA.',
+      en: "A prototype of a car rental service in Tomsk with an interface styled as a car's dashboard. A catalog with filters and availability calendars, 4-step booking with a finger-signed contract, simulated online payment, and an owner panel with a Gantt chart. Works offline as a PWA.",
+    },
+    category: 'sites',
+    domain: 'bug1vuge.github.io/rent-car',
+    // Taken from the project's repository: static site without a build step.
+    stack: ['HTML5', 'CSS3', 'JavaScript', 'Service Worker / PWA', 'localStorage', 'Canvas API'],
+    demoUrl: 'https://bug1vuge.github.io/rent-car/',
+    repoUrl: 'https://github.com/bug1vuge/rent-car',
+    cover: {
+      scene: 'carrent',
+      tone: 'fn',
+      headline: 'Аренда авто',
+      kicker: 'Томск, ул. Пушкина',
+      labels: ['Эконом', 'Комфорт', 'Премиум', 'Мои даты', 'Забронировать', '15 мин', 'до ключей'],
     },
   },
   {
@@ -277,26 +298,47 @@ export const projects: Project[] = [
       labels: ['web'],
     },
   },
-  // Временно скрыт. Чтобы вернуть проект в портфолио, раскомментируйте блок ниже.
-  // {
-  //   id: 'dambiev',
-  //   title: { ru: 'Леонид Дамбиев — ведущий', en: 'Leonid Dambiev, event host' },
-  //   description: {
-  //     ru: 'Сайт ведущего мероприятий. Танцующие буквы и зеркальный шар на canvas, которые реагируют на курсор, параллакс, пререндер для SEO и форма заявки с валидацией.',
-  //     en: 'The website of an event host. Cursor-reactive dancing letters and a canvas mirror ball, parallax, prerendering for SEO, and a booking form with validation.',
-  //   },
-  //   category: 'sites',
-  //   domain: 'bug1vuge.github.io',
-  //   // Taken from the project's package.json.
-  //   stack: ['React', 'TypeScript', 'Vite', 'Canvas API', { ru: 'SSR-пререндер', en: 'SSR prerendering' }],
-  //   demoUrl: 'https://bug1vuge.github.io/dambiev-site/',
-  //   repoUrl: 'https://github.com/bug1vuge/dambiev-site',
-  //   cover: {
-  //     scene: 'event',
-  //     tone: 'caret',
-  //     headline: 'Леонид',
-  //     kicker: 'ведущий мероприятий',
-  //     labels: ['Дамбиев', 'Забронировать дату', 'свадьбы ✦ юбилеи ✦ корпоративы ✦ выпускные ✦'],
-  //   },
-  // },
+  {
+    id: 'dambiev',
+    title: { ru: 'Леонид Дамбиев — ведущий', en: 'Leonid Dambiev, event host' },
+    description: {
+      ru: 'Сайт ведущего мероприятий. Танцующие буквы и зеркальный шар на canvas, которые реагируют на курсор, параллакс, пререндер для SEO и форма заявки с валидацией.',
+      en: 'The website of an event host. Cursor-reactive dancing letters and a canvas mirror ball, parallax, prerendering for SEO, and a booking form with validation.',
+    },
+    category: 'sites',
+    domain: 'bug1vuge.github.io/dambiev-site',
+    // Taken from the project's package.json.
+    stack: ['React', 'TypeScript', 'Vite', 'Canvas API', { ru: 'SSR-пререндер', en: 'SSR prerendering' }],
+    demoUrl: 'https://bug1vuge.github.io/dambiev-site/',
+    repoUrl: 'https://github.com/bug1vuge/dambiev-site',
+    cover: {
+      scene: 'event',
+      tone: 'caret',
+      headline: 'Леонид',
+      kicker: 'ведущий мероприятий',
+      labels: ['Дамбиев', 'Забронировать дату', 'свадьбы ✦ юбилеи ✦ корпоративы ✦ выпускные ✦'],
+    },
+  },
+];
+
+/** Public repositories listed on the GitHub card that closes the grid. */
+export const publicRepos: { name: string; lang: string; tone: CoverTone; about: Localized }[] = [
+  {
+    name: 'malyutin-portfolio',
+    lang: 'TypeScript',
+    tone: 'fn',
+    about: { ru: 'Этот сайт: React, TypeScript, Vite, RU/EN', en: 'This website: React, TypeScript, Vite, RU/EN' },
+  },
+  {
+    name: 'rent-car',
+    lang: 'JavaScript',
+    tone: 'caret',
+    about: { ru: 'Прототип сервиса аренды авто, PWA', en: 'Car rental service prototype, PWA' },
+  },
+  {
+    name: 'dambiev-site',
+    lang: 'TypeScript',
+    tone: 'fn',
+    about: { ru: 'Сайт ведущего мероприятий с пререндером', en: 'Event host website with prerendering' },
+  },
 ];

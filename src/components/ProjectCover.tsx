@@ -561,6 +561,143 @@ function Event({ c, uid }: { c: Cover; uid: string }) {
   );
 }
 
+function CarRent({ c }: { c: Cover }) {
+  const [eco = '', comfort = '', premium = '', datesLabel = '', cta = '', mins = '', minsSub = ''] = c.labels ?? [];
+  const car =
+    'M0 52 C0 44 6 40 18 38 L60 34 C78 20 96 12 128 12 L168 12 C186 12 200 22 214 34 L238 38 C248 40 252 46 252 52 L252 58 C252 62 248 64 244 64 L8 64 C3 64 0 61 0 58 Z';
+  return (
+    <g>
+      {/* rail */}
+      <rect width={52} height={400} className="cv-panel" />
+      <rect x={13} y={14} width={26} height={26} rx={8} className="cv-acc" />
+      <text x={26} y={31} textAnchor="middle" className="cv-btn-text" style={{ fontSize: 9 }}>
+        RC
+      </text>
+      {[0, 1, 2, 3].map((i) => (
+        <rect key={i} x={16} y={62 + i * 34} width={20} height={20} rx={6} className={i === 0 ? 'cv-acc-soft' : 'cv-chip'} />
+      ))}
+      {/* status line */}
+      <text x={66} y={20} className="cv-mono" style={{ fill: 'var(--cv-text)' }}>
+        21:40
+      </text>
+      <text x={104} y={20} className="cv-tip-sub">
+        {c.kicker}
+      </text>
+      {[0, 1, 2, 3].map((i) => (
+        <rect
+          key={i}
+          x={520 + i * 6}
+          y={20 - (i + 1) * 3}
+          width={3.5}
+          height={(i + 1) * 3}
+          rx={1}
+          className={i < 3 ? 'cv-strong' : 'cv-line'}
+        />
+      ))}
+      {/* stage */}
+      <g transform="translate(64 32)">
+        <rect width={322} height={206} rx={14} className="cv-card" />
+        <text x={18} y={30} className="cv-headline" style={{ fontSize: 22 }}>
+          {c.headline}
+        </text>
+        <rect x={18} y={42} width={120} height={5} rx={2.5} className="cv-line" />
+        {/* road */}
+        <ellipse cx={161} cy={152} rx={128} ry={9} className="cv-shadow" />
+        <g className="cv-streaks">
+          {[0, 1, 2].map((i) => (
+            <rect key={i} x={6 + i * 10} y={104 + i * 14} width={50 - i * 10} height={2} rx={1} className="cv-acc-soft" />
+          ))}
+        </g>
+        <g className="cv-car" transform="translate(36 84)">
+          <path d={car} className="cv-car-body" />
+          <path d="M70 34 C84 22 98 17 124 17 L126 34 Z" className="cv-car-glass" />
+          <path d="M132 17 L164 17 C178 17 190 25 200 34 L132 34 Z" className="cv-car-glass" />
+          <rect x={240} y={44} width={10} height={5} rx={2} className="cv-acc" />
+          <rect x={2} y={44} width={7} height={5} rx={2} style={{ fill: 'var(--num)' }} />
+          {[54, 200].map((x) => (
+            <g key={x}>
+              <circle cx={x} cy={64} r={16} className="cv-wheel" />
+              <circle cx={x} cy={64} r={7} className="cv-strong" />
+            </g>
+          ))}
+        </g>
+        {/* drive-mode switch */}
+        <g transform="translate(40 168)">
+          <rect width={242} height={28} rx={14} className="cv-chip" />
+          <rect x={83} y={3} width={76} height={22} rx={11} className="cv-acc" />
+          {[eco, comfort, premium].map((l, i) => (
+            <text
+              key={l}
+              x={40 + i * 81}
+              y={18}
+              textAnchor="middle"
+              className={i === 1 ? 'cv-btn-text' : 'cv-tip-sub'}
+              style={i === 1 ? undefined : { fill: 'var(--cv-text)' }}
+            >
+              {l}
+            </text>
+          ))}
+        </g>
+      </g>
+      {/* dates widget */}
+      <g transform="translate(398 32)">
+        <rect width={150} height={118} rx={14} className="cv-card" />
+        <text x={14} y={24} className="cv-tip-title">
+          {datesLabel}
+        </text>
+        {Array.from({ length: 21 }).map((_, i) => {
+          const inRange = i >= 9 && i <= 12;
+          return (
+            <rect
+              key={i}
+              x={14 + (i % 7) * 18}
+              y={38 + Math.floor(i / 7) * 22}
+              width={14}
+              height={16}
+              rx={4}
+              className={inRange ? (i === 9 || i === 12 ? 'cv-acc' : 'cv-acc-soft') : 'cv-chip'}
+            />
+          );
+        })}
+      </g>
+      {/* booking widget */}
+      <g transform="translate(398 160)">
+        <rect width={150} height={78} rx={14} className="cv-card" />
+        <rect x={14} y={14} width={70} height={6} rx={3} className="cv-line" />
+        <rect x={14} y={26} width={46} height={6} rx={3} className="cv-line" />
+        <g className="cv-lift">
+          <rect x={14} y={42} width={122} height={24} rx={12} className="cv-go" />
+          <text x={75} y={58} textAnchor="middle" className="cv-btn-text">
+            {cta}
+          </text>
+        </g>
+      </g>
+      {/* stats */}
+      {[0, 1, 2].map((i) => (
+        <g key={i} transform={`translate(${64 + i * 164} 250)`}>
+          <rect width={152} height={64} rx={14} className="cv-card" />
+          <rect x={14} y={16} width={22} height={22} rx={7} className={i === 0 ? 'cv-acc-soft' : 'cv-chip'} />
+          {i === 0 ? (
+            <>
+              <text x={46} y={32} className="cv-headline" style={{ fontSize: 18 }}>
+                {mins}
+              </text>
+              <text x={46} y={50} className="cv-tip-sub">
+                {minsSub}
+              </text>
+            </>
+          ) : (
+            <>
+              <rect x={46} y={20} width={50 + i * 12} height={10} rx={3} className="cv-strong" />
+              <rect x={46} y={40} width={70} height={5} rx={2.5} className="cv-line" />
+            </>
+          )}
+        </g>
+      ))}
+    </g>
+  );
+}
+
 const SCENES: Record<Cover['scene'], (p: { c: Cover; uid: string }) => ReactNode> = {
   dashboard: Dashboard,
   landing: Landing,
@@ -571,6 +708,7 @@ const SCENES: Record<Cover['scene'], (p: { c: Cover; uid: string }) => ReactNode
   catalog: Catalog,
   studio: Studio,
   event: Event,
+  carrent: CarRent,
 };
 
 export function ProjectCover({ cover, domain }: { cover: Cover; domain: string }) {

@@ -68,6 +68,7 @@ const ru = {
     private: 'Закрытый код',
     privateHint: 'Коммерческий проект: исходный код принадлежит заказчику',
     moreTitle: 'Остальной код — на GitHub',
+    repos: 'Публичные репозитории',
   },
   skills: {
     title: 'Навыки и стек',
@@ -170,6 +171,7 @@ const en: Dictionary = {
     private: 'Private code',
     privateHint: 'Commercial project: the source code belongs to the client',
     moreTitle: 'More code on GitHub',
+    repos: 'Public repositories',
   },
   skills: {
     title: 'Skills & stack',
