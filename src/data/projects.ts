@@ -19,9 +19,22 @@ import type { Localized, MaybeLocalized } from '../i18n/lang';
  * либо парой { ru: '…', en: '…' }.
  */
 
-export type ProjectCategory = 'realestate' | 'saas' | 'sites';
+export type ProjectCategory = 'realestate' | 'saas' | 'sites' | 'interactive';
 
-export type CoverScene = 'dashboard' | 'landing' | 'genplan' | 'facade' | 'chess' | 'catalog' | 'village' | 'studio' | 'event' | 'carrent';
+export type CoverScene =
+  | 'dashboard'
+  | 'landing'
+  | 'genplan'
+  | 'facade'
+  | 'chess'
+  | 'catalog'
+  | 'village'
+  | 'studio'
+  | 'event'
+  | 'carrent'
+  | 'letter'
+  | 'transcript'
+  | 'ticket';
 export type CoverTone = 'kw' | 'fn' | 'str' | 'num' | 'caret';
 
 export interface ProjectCover {
@@ -45,6 +58,8 @@ export interface Project {
   demoUrl: string;
   repoUrl: string | null;
   cover: ProjectCover;
+  /** Extra links shown under the description, e.g. a companion tool. */
+  links?: { label: Localized; url: string }[];
   featured?: boolean;
 }
 
@@ -52,6 +67,7 @@ export const categories: { key: ProjectCategory | 'all'; label: Localized }[] = 
   { key: 'all', label: { ru: 'Все', en: 'All' } },
   { key: 'saas', label: { ru: 'CRM и SaaS', en: 'CRM & SaaS' } },
   { key: 'realestate', label: { ru: 'Недвижимость', en: 'Real estate' } },
+  { key: 'interactive', label: { ru: 'Интерактив', en: 'Interactive' } },
   { key: 'sites', label: { ru: 'Сайты', en: 'Websites' } },
 ];
 
@@ -59,6 +75,7 @@ export const categoryTag: Record<ProjectCategory, Localized> = {
   saas: { ru: 'crm / saas', en: 'crm / saas' },
   realestate: { ru: 'недвижимость', en: 'real estate' },
   sites: { ru: 'сайт', en: 'website' },
+  interactive: { ru: 'интерактив', en: 'interactive' },
 };
 
 /* ───── Stacks, as listed for each group of projects ───── */
@@ -156,6 +173,73 @@ export const projects: Project[] = [
       headline: 'Аренда авто',
       kicker: 'Томск, ул. Пушкина',
       labels: ['Эконом', 'Комфорт', 'Премиум', 'Мои даты', 'Забронировать', '15 мин', 'до ключей'],
+    },
+  },
+  {
+    id: 'animated-letter',
+    title: { ru: 'Animated Letter — именное письмо', en: 'Animated Letter' },
+    description: {
+      ru: 'Персональное письмо: конверт с именем получателя переворачивается, клапан открывается, и письмо выезжает к читателю, а внизу звучит голосовое сообщение от отправителя. Имя берётся из ссылки, а для рассылки есть генератор именных ссылок с выгрузкой в CSV.',
+      en: 'A personal letter: an envelope addressed to the recipient turns over, the flap lifts, and the letter slides out to the reader, with a voice note from the sender at the bottom. The name comes from the link, and a link maker creates personal links in bulk with CSV export.',
+    },
+    category: 'interactive',
+    domain: 'bug1vuge.github.io/animated-letter',
+    // Taken from the project's repository: static files, no framework or build step.
+    stack: ['JavaScript', 'CSS 3D', 'Web Animations API', 'HTML Audio', 'node:test', 'GitHub Actions'],
+    demoUrl: 'https://bug1vuge.github.io/animated-letter/invite/?name=Anna',
+    repoUrl: 'https://github.com/bug1vuge/animated-letter',
+    links: [
+      {
+        label: { ru: 'Генератор именных ссылок', en: 'Personal link maker' },
+        url: 'https://bug1vuge.github.io/animated-letter/compose/',
+      },
+    ],
+    cover: {
+      scene: 'letter',
+      tone: 'caret',
+      headline: 'Maison Orée',
+      labels: ['MAISON ORÉE', 'Anna,', 'LISTEN', '0:42', 'ANNA'],
+    },
+  },
+  {
+    id: 'transcript',
+    title: { ru: 'Transcript — аудиоэссе', en: 'Transcript' },
+    description: {
+      ru: 'Аудиоэссе, где текст проявляется вслед за голосом. Каждое слово привязано к таймингу записи, текущее слово ищется бинарным поиском на каждом кадре, а паузы в речи превращаются в пробелы в тексте. Нажмите на любое слово, и запись перемотается к нему.',
+      en: 'An audio essay whose text inks itself in as it is spoken. Every word is tied to a timestamp in the recording, the current word is found with a binary search on every frame, and pauses in the voice become extra space on the page. Tap any word to jump the audio to it.',
+    },
+    category: 'interactive',
+    domain: 'bug1vuge.github.io/transcript-project',
+    // Taken from the project's repository: static files, no framework or build step.
+    stack: ['JavaScript', 'HTML Audio', 'requestAnimationFrame', 'CSS', 'node:test', 'GitHub Actions'],
+    demoUrl: 'https://bug1vuge.github.io/transcript-project/',
+    repoUrl: 'https://github.com/bug1vuge/transcript-project',
+    cover: {
+      scene: 'transcript',
+      tone: 'fn',
+      headline: 'On keeping voicemails',
+      kicker: 'MARGIN',
+      labels: ['PAUSE', '0:34 / 1:24'],
+    },
+  },
+  {
+    id: 'admit-one',
+    title: { ru: 'Admit One — именной билет', en: 'Admit One' },
+    description: {
+      ru: 'Именной билет на закрытый показ: чтобы подтвердить участие, нужно оторвать корешок. Он следует за пальцем и шуршит звуками бумаги, сгенерированными через Web Audio API, а после подтверждения показ можно добавить в календарь файлом .ics.',
+      en: 'A personal ticket to a private screening: to confirm, you tear off the stub. It follows your finger with paper sounds generated by the Web Audio API, and once you confirm, you can add the screening to your calendar as an .ics file.',
+    },
+    category: 'interactive',
+    domain: 'bug1vuge.github.io/admit-one',
+    // Taken from the project's repository: static files, no framework or build step.
+    stack: ['JavaScript', 'Pointer Events', 'Web Audio API', 'CSS Masks', 'iCalendar (.ics)', 'node:test'],
+    demoUrl: 'https://bug1vuge.github.io/admit-one/?name=Anna&seat=F7',
+    repoUrl: 'https://github.com/bug1vuge/admit-one',
+    cover: {
+      scene: 'ticket',
+      tone: 'num',
+      headline: 'Halflight',
+      labels: ['ADMIT ONE', 'SMALL HOURS FILM CLUB', 'ANNA', 'F', '7', 'FRI 14 NOV', 'No 0417'],
     },
   },
   {
@@ -334,6 +418,24 @@ export const publicRepos: { name: string; lang: string; tone: CoverTone; about: 
     lang: 'JavaScript',
     tone: 'caret',
     about: { ru: 'Прототип сервиса аренды авто, PWA', en: 'Car rental service prototype, PWA' },
+  },
+  {
+    name: 'animated-letter',
+    lang: 'JavaScript',
+    tone: 'caret',
+    about: { ru: 'Именное письмо с голосовым сообщением', en: 'Personal letter with a voice note' },
+  },
+  {
+    name: 'transcript-project',
+    lang: 'JavaScript',
+    tone: 'caret',
+    about: { ru: 'Аудиоэссе, где текст идёт за голосом', en: 'Audio essay where text follows the voice' },
+  },
+  {
+    name: 'admit-one',
+    lang: 'JavaScript',
+    tone: 'caret',
+    about: { ru: 'Билет, корешок которого нужно оторвать', en: 'A ticket you tear to RSVP' },
   },
   {
     name: 'dambiev-site',

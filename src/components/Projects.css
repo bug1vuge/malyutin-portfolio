@@ -129,10 +129,30 @@
   font-size: 0.78rem;
 }
 
+.project__bar {
+  gap: 1rem;
+}
+
+.project__bar > .t-com {
+  flex: none;
+  white-space: nowrap;
+}
+
 .project__file {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
+}
+
+.project__folder {
+  flex: none;
+}
+
+.project__domain {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .project__folder {
@@ -177,6 +197,31 @@
   color: var(--muted);
   font-size: var(--fs-small);
   line-height: 1.55;
+}
+
+.project__extra {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--str);
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.35s var(--ease-out);
+}
+
+.project__extra:hover {
+  background-size: 100% 1px;
+}
+
+.project__extra svg {
+  width: 14px;
+  height: 14px;
 }
 
 .project__stack {
@@ -452,6 +497,16 @@
   display: block;
 }
 
+/* Spanning two columns: lay the repos out in two columns too */
+.project-cell--more[data-r3='1'] .repos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.project-cell--more[data-r3='1'] .repos li:nth-child(even) .repo {
+  border-left: 1px solid var(--line);
+}
+
 @media (max-width: 1023px) {
   .projects__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -487,6 +542,15 @@
   }
   .project-cell--more[data-r2='1'] :is(.repos, .repos__cmd) {
     display: block;
+  }
+  .project-cell--more[data-r3='1'] .repos li:nth-child(even) .repo {
+    border-left: 0;
+  }
+  .project-cell--more[data-r2='1'] .repo__about {
+    display: none;
+  }
+  .project-cell--more[data-r2='1'] .repo {
+    padding-block: 0.8rem;
   }
 }
 

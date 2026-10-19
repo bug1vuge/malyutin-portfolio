@@ -38,7 +38,7 @@ function ProjectCard({ project, index, featured }: { project: Project; index: nu
         <div className="project__bar">
           <span className="project__file">
             <span className="project__folder" aria-hidden="true" />
-            {project.domain}
+            <span className="project__domain">{project.domain.replace(/^[\w-]+\.github\.io\//, 'github.io/')}</span>
           </span>
           <span className="t-com">// {tr(categoryTag[project.category])}</span>
         </div>
@@ -51,6 +51,12 @@ function ProjectCard({ project, index, featured }: { project: Project; index: nu
           <div className="project__body">
             <h3 className="project__title">{title}</h3>
             <p className="project__desc">{tr(project.description)}</p>
+            {project.links?.map((l) => (
+              <a key={l.url} className="project__extra" href={l.url} target="_blank" rel="noopener noreferrer">
+                <ExternalIcon />
+                {tr(l.label)}
+              </a>
+            ))}
             <ul className="project__stack" aria-label={t.projects.stack}>
               {stack.map((s) => (
                 <li key={tr(s)} className="chip">

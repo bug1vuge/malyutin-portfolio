@@ -348,6 +348,122 @@
   opacity: 0;
 }
 
+/* Paper: letter and ticket */
+.cv-warm {
+  fill: color-mix(in srgb, var(--acc) 7%, #101823);
+}
+.cv-paper {
+  fill: #f4eee4;
+}
+.cv-paper-back {
+  fill: #cfc3b1;
+}
+.cv-paper-front {
+  fill: #e6dccd;
+  filter: drop-shadow(0 -6px 10px rgba(0, 0, 0, 0.18));
+}
+.cv-paper-fold {
+  fill: none;
+  stroke: rgba(80, 64, 44, 0.18);
+  stroke-width: 1;
+}
+.cv-paper-kicker {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  fill: #7d6e5c;
+}
+.cv-paper-hand {
+  font-size: 20px;
+  font-style: italic;
+  fill: #2b241c;
+}
+.cv-paper-name {
+  font-size: 15px;
+  letter-spacing: 0.32em;
+  fill: #3a3128;
+}
+.cv-ink-line {
+  fill: rgba(43, 36, 28, 0.2);
+}
+.cv-progress {
+  transition: width 1.2s var(--ease-out);
+}
+.cv-letter {
+  transition: transform 0.9s var(--ease-out);
+}
+
+/* Transcript */
+.cv-serif-title {
+  font-size: 24px;
+  font-style: italic;
+  fill: var(--cv-text);
+}
+.cv-serif-body {
+  font-size: 15px;
+}
+.cv-word--inked {
+  fill: var(--cv-text);
+}
+.cv-word--now {
+  fill: var(--acc);
+}
+.cv-word--faint {
+  fill: var(--cv-text);
+  opacity: 0.18;
+}
+
+/* Ticket */
+.cv-curtain {
+  fill: color-mix(in srgb, var(--acc) 22%, #121a26);
+}
+.cv-curtain--dark {
+  fill: color-mix(in srgb, var(--acc) 12%, #0e151f);
+}
+.cv-ticket {
+  fill: #efe6d6;
+}
+.cv-ticket--stub {
+  fill: #e7dcc8;
+}
+.cv-perf {
+  stroke: rgba(60, 48, 34, 0.45);
+  stroke-width: 1.4;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+.cv-ticket-kicker {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  fill: color-mix(in srgb, var(--acc) 70%, #3a2a1c);
+}
+.cv-ticket-film {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 44px;
+  letter-spacing: -0.04em;
+  fill: #1e1812;
+}
+.cv-ticket-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  fill: #7a6c5a;
+}
+.cv-ticket-value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  fill: #1e1812;
+}
+.cv-stub {
+  transform-origin: 392px 260px;
+  transform: rotate(4deg);
+  transition: transform 0.9s var(--ease-bounce);
+}
+
 /* ───── Motion: everything wakes up on hover ───── */
 .cv-lift,
 .cv-float,
@@ -412,6 +528,18 @@
 .project:hover .cv-streaks {
   opacity: 1;
   transform: translateX(-6px);
+}
+
+.project:hover .cv-letter {
+  transform: translateY(-16px);
+}
+
+.project:hover .cv-progress {
+  width: 110px;
+}
+
+.project:hover .cv-stub {
+  transform: rotate(14deg) translate(10px, 6px);
 }
 
 @keyframes cv-pulse {

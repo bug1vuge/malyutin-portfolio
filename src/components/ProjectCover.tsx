@@ -698,6 +698,157 @@ function CarRent({ c }: { c: Cover }) {
   );
 }
 
+const SERIF = "Georgia, 'Times New Roman', serif";
+
+function Letter({ c }: { c: Cover }) {
+  const [house = '', greeting = '', listen = '', time = '', addressee = ''] = c.labels ?? [];
+  return (
+    <g>
+      <rect width={W} height={400} className="cv-warm" />
+      {/* back flap, open */}
+      <path d="M130 176 L280 92 L430 176 Z" className="cv-paper-back" />
+      {/* the letter, sliding out */}
+      <g className="cv-letter">
+        <rect x={156} y={30} width={248} height={230} rx={4} className="cv-paper" />
+        <text x={176} y={56} className="cv-paper-kicker">
+          {house}
+        </text>
+        <text x={176} y={88} className="cv-paper-hand" style={{ fontFamily: SERIF }}>
+          {greeting}
+        </text>
+        {[0, 1, 2, 3].map((i) => (
+          <rect key={i} x={176} y={102 + i * 13} width={[200, 188, 196, 120][i]} height={4} rx={2} className="cv-ink-line" />
+        ))}
+        <text x={176} y={176} className="cv-paper-kicker" style={{ letterSpacing: '0.2em' }}>
+          {listen}
+        </text>
+        <rect x={232} y={172} width={130} height={1.5} className="cv-ink-line" />
+        <rect x={232} y={172} width={46} height={1.5} className="cv-acc cv-progress" />
+        <text x={384} y={176} textAnchor="end" className="cv-paper-kicker">
+          {time}
+        </text>
+      </g>
+      {/* front pocket */}
+      <path d="M130 176 L280 252 L430 176 L430 318 L130 318 Z" className="cv-paper-front" />
+      <path d="M130 318 L262 240 M430 318 L298 240" className="cv-paper-fold" />
+      <text x={280} y={300} textAnchor="middle" className="cv-paper-name" style={{ fontFamily: SERIF }}>
+        {addressee}
+      </text>
+      <circle cx={280} cy={252} r={13} className="cv-acc" />
+      <text x={280} y={256} textAnchor="middle" className="cv-btn-text" style={{ fontFamily: SERIF, fontStyle: 'italic', fontSize: 10 }}>
+        mo
+      </text>
+    </g>
+  );
+}
+
+function Transcript({ c }: { c: Cover }) {
+  const [listen = '', time = ''] = c.labels ?? [];
+  const lines = [
+    'My grandmother left me eleven voicemails in the',
+    "last year of her life. I didn't listen to most of",
+    'them at the time. They were short, and they were',
+    "always the same: it's only me, nothing important,",
+    'call when you can.',
+  ];
+  const current = 28; // index of the word being spoken, counted across lines
+  let n = 0;
+  return (
+    <g>
+      <text x={40} y={34} className="cv-kicker" style={{ letterSpacing: '0.14em' }}>
+        {c.kicker}
+      </text>
+      <text x={40} y={70} className="cv-serif-title" style={{ fontFamily: SERIF }}>
+        {c.headline}
+      </text>
+      {lines.map((line, li) => (
+        <text key={li} x={40} y={112 + li * 26} className="cv-serif-body" style={{ fontFamily: SERIF }}>
+          {line.split(' ').map((w, wi) => {
+            const idx = n++;
+            const cls = idx < current ? 'cv-word--inked' : idx === current ? 'cv-word--now' : 'cv-word--faint';
+            return (
+              <tspan key={wi} className={cls}>
+                {w}{' '}
+              </tspan>
+            );
+          })}
+        </text>
+      ))}
+      {/* the spoken word, underlined */}
+      <rect x={302} y={170} width={44} height={2} rx={1} className="cv-acc cv-pulse" />
+      {/* control: one word, a hairline and a time */}
+      <g transform="translate(40 268)">
+        <text y={4} className="cv-mono" style={{ fill: 'var(--cv-text)', letterSpacing: '0.18em' }}>
+          {listen}
+        </text>
+        <rect x={70} y={0} width={360} height={1.5} className="cv-line" />
+        <rect x={70} y={0} width={150} height={1.5} className="cv-acc cv-progress" />
+        <circle cx={220} cy={0.75} r={4} className="cv-acc" />
+        <text x={480} y={4} textAnchor="end" className="cv-mono">
+          {time}
+        </text>
+      </g>
+    </g>
+  );
+}
+
+function Ticket({ c, uid }: { c: Cover; uid: string }) {
+  const [admit = '', club = '', guest = '', row = '', seat = '', date = '', number = ''] = c.labels ?? [];
+  const field = (x: number, label: string, value: string) => (
+    <g transform={`translate(${x} 196)`}>
+      <text className="cv-ticket-label">{label}</text>
+      <text y={20} className="cv-ticket-value">
+        {value}
+      </text>
+    </g>
+  );
+  return (
+    <g>
+      {/* curtain */}
+      {Array.from({ length: 14 }).map((_, i) => (
+        <rect key={i} x={i * 40} width={40} height={400} className={i % 2 ? 'cv-curtain' : 'cv-curtain cv-curtain--dark'} />
+      ))}
+      <defs>
+        <mask id={`${uid}-ticket`}>
+          <rect x={40} y={50} width={480} height={210} rx={10} fill="#fff" />
+          <circle cx={392} cy={50} r={12} fill="#000" />
+          <circle cx={392} cy={260} r={12} fill="#000" />
+        </mask>
+      </defs>
+      <g mask={`url(#${uid}-ticket)`}>
+        {/* main part */}
+        <rect x={40} y={50} width={352} height={210} className="cv-ticket" />
+        {/* stub, swinging from the far end of the perforation */}
+        <g className="cv-stub">
+          <rect x={392} y={50} width={128} height={210} className="cv-ticket cv-ticket--stub" />
+        </g>
+      </g>
+      <line x1={392} y1={66} x2={392} y2={244} className="cv-perf" />
+      <text x={64} y={86} className="cv-ticket-kicker">
+        {admit}
+      </text>
+      <text x={64} y={142} className="cv-ticket-film">
+        {c.headline}
+      </text>
+      <text x={64} y={166} className="cv-ticket-label" style={{ letterSpacing: '0.08em' }}>
+        {club}
+      </text>
+      {field(64, 'GUEST', guest)}
+      {field(170, 'ROW', row)}
+      {field(222, 'SEAT', seat)}
+      {field(282, 'DATE', date)}
+      <g className="cv-stub">
+        <text x={456} y={155} textAnchor="middle" className="cv-ticket-kicker" transform="rotate(-90 456 155)">
+          {admit}
+        </text>
+        <text x={492} y={155} textAnchor="middle" className="cv-ticket-label" transform="rotate(-90 492 155)">
+          {number}
+        </text>
+      </g>
+    </g>
+  );
+}
+
 const SCENES: Record<Cover['scene'], (p: { c: Cover; uid: string }) => ReactNode> = {
   dashboard: Dashboard,
   landing: Landing,
@@ -709,6 +860,9 @@ const SCENES: Record<Cover['scene'], (p: { c: Cover; uid: string }) => ReactNode
   studio: Studio,
   event: Event,
   carrent: CarRent,
+  letter: Letter,
+  transcript: Transcript,
+  ticket: Ticket,
 };
 
 export function ProjectCover({ cover, domain }: { cover: Cover; domain: string }) {
