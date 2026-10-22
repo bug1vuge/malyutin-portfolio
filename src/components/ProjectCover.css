@@ -464,6 +464,123 @@
   transition: transform 0.9s var(--ease-bounce);
 }
 
+/* Door */
+.cv-ink {
+  fill: #15110d;
+}
+.cv-door-word {
+  font-size: 58px;
+  letter-spacing: 0.08em;
+  fill: #efe7da;
+}
+.cv-swatch-ring {
+  fill: none;
+  stroke: var(--acc);
+  stroke-width: 1.5;
+}
+.cv-outline {
+  fill: none;
+  stroke: var(--acc);
+  stroke-width: 1.2;
+}
+.cv-wall {
+  fill: #1d1813;
+}
+.cv-frame {
+  fill: #2b241d;
+}
+.cv-glow-door {
+  fill: color-mix(in srgb, var(--acc) 75%, #fff4dc);
+  transition: opacity 0.8s;
+  opacity: 0.85;
+}
+.cv-spill {
+  fill: color-mix(in srgb, var(--acc) 22%, transparent);
+  transition: opacity 0.8s;
+}
+.cv-leaf {
+  transform-origin: 346px 180px;
+  transition: transform 1s var(--ease-out);
+}
+.cv-leaf-panel {
+  fill: rgba(0, 0, 0, 0.14);
+  stroke: rgba(255, 255, 255, 0.12);
+}
+
+/* Room */
+.cv-room-wall {
+  fill: #f3eee7;
+}
+.cv-room-floor {
+  fill: #e3d8ca;
+}
+.cv-room-base {
+  fill: #d3c6b5;
+}
+.cv-room-kicker {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  fill: color-mix(in srgb, var(--acc) 70%, #3a1d16);
+}
+.cv-room-title {
+  font-size: 28px;
+  font-weight: 700;
+  fill: #1b1715;
+}
+.cv-room-card {
+  fill: #fff;
+  stroke: #e2d8cb;
+}
+.cv-rug {
+  fill: #dacbb8;
+}
+.cv-sofa {
+  transition: transform 0.8s var(--ease-bounce);
+}
+.cv-sofa-back {
+  fill: #8f1426;
+}
+.cv-sofa-seat {
+  fill: #a3172b;
+}
+.cv-room-leg {
+  fill: #3a2c22;
+}
+.cv-lamp-shade {
+  fill: #efe2c6;
+  stroke: #cdbb98;
+}
+.cv-lamp-glow {
+  fill: color-mix(in srgb, var(--caret) 40%, transparent);
+  opacity: 0.35;
+  transition: opacity 0.6s;
+}
+.cv-shelf {
+  fill: #c9a77c;
+}
+.cv-shelf-hole {
+  fill: #b8946a;
+}
+.cv-book {
+  fill: #5d4a3c;
+}
+.cv-tag {
+  transition: transform 0.6s var(--ease-out);
+}
+.cv-tag-bg {
+  fill: #fff;
+  stroke: #d8ccbd;
+}
+.cv-tag-hole {
+  fill: #d8ccbd;
+}
+.cv-tag-text {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  fill: #4a3f37;
+}
+
 /* ───── Motion: everything wakes up on hover ───── */
 .cv-lift,
 .cv-float,
@@ -540,6 +657,22 @@
 
 .project:hover .cv-stub {
   transform: rotate(14deg) translate(10px, 6px);
+}
+
+.project:hover .cv-leaf {
+  transform: scaleX(0.55);
+}
+
+.project:hover .cv-glow-door {
+  opacity: 1;
+}
+
+.project:hover .cv-lamp-glow {
+  opacity: 1;
+}
+
+.project:hover .cv-tag {
+  transform: translateY(-4px);
 }
 
 @keyframes cv-pulse {

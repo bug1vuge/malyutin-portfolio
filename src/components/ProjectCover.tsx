@@ -849,6 +849,122 @@ function Ticket({ c, uid }: { c: Cover; uid: string }) {
   );
 }
 
+function Door({ c }: { c: Cover }) {
+  const [cta = ''] = c.labels ?? [];
+  // Real finishes from the HOLZ catalog
+  const swatches = ['#b88a57', '#7d5434', '#4d3324', '#dccfba', '#6f6a66', '#3b3a3a'];
+  return (
+    <g>
+      <rect width={W} height={400} className="cv-ink" />
+      <text x={36} y={74} className="cv-kicker" style={{ letterSpacing: '0.24em' }}>
+        {c.kicker}
+      </text>
+      <text x={32} y={136} className="cv-door-word" style={{ fontFamily: SERIF }}>
+        {c.headline}
+      </text>
+      <rect x={36} y={158} width={170} height={4} rx={2} className="cv-line" />
+      <rect x={36} y={170} width={130} height={4} rx={2} className="cv-line" />
+      {swatches.map((col, i) => (
+        <g key={col}>
+          {i === 0 && <circle cx={46 + i * 28} cy={210} r={13} className="cv-swatch-ring" />}
+          <circle cx={46 + i * 28} cy={210} r={9} fill={col} />
+        </g>
+      ))}
+      <g className="cv-lift">
+        <rect x={36} y={244} width={cta.length * 6.6 + 30} height={28} rx={2} className="cv-outline" />
+        <text x={51} y={262} className="cv-mono" style={{ fill: 'var(--acc)', letterSpacing: '0.14em' }}>
+          {cta}
+        </text>
+      </g>
+      {/* wall, frame and the light behind the door */}
+      <rect x={300} y={0} width={260} height={310} className="cv-wall" />
+      <path d="M346 310 L474 310 L560 360 L260 360 Z" className="cv-spill" />
+      <rect x={338} y={40} width={144} height={270} className="cv-frame" />
+      <rect x={346} y={48} width={128} height={262} className="cv-glow-door" />
+      {/* the leaf, swinging towards the viewer from the left hinge */}
+      <g className="cv-leaf">
+        <path d="M346 48 L414 30 L414 330 L346 310 Z" fill={swatches[0]} />
+        <path d="M356 64 L404 52 L404 170 L356 176 Z" className="cv-leaf-panel" />
+        <path d="M356 192 L404 188 L404 304 L356 296 Z" className="cv-leaf-panel" />
+        <rect x={400} y={176} width={5} height={18} rx={2} className="cv-acc" />
+      </g>
+      <rect x={300} y={310} width={260} height={2} className="cv-strong" />
+    </g>
+  );
+}
+
+function Room({ c }: { c: Cover }) {
+  const [sofa = '', shelf = '', lamp = '', total = ''] = c.labels ?? [];
+  const tag = (x: number, y: number, label: string, w = 54) => (
+    <g transform={`translate(${x} ${y})`}>
+      <g className="cv-tag">
+        <path d={`M0 9 L9 0 L${w} 0 L${w} 18 L9 18 Z`} className="cv-tag-bg" />
+        <circle cx={8} cy={9} r={2} className="cv-tag-hole" />
+        <text x={15} y={13} className="cv-tag-text">
+          {label}
+        </text>
+      </g>
+    </g>
+  );
+  return (
+    <g>
+      <rect width={W} height={400} className="cv-room-wall" />
+      <rect y={262} width={W} height={140} className="cv-room-floor" />
+      <rect y={260} width={W} height={3} className="cv-room-base" />
+      <text x={32} y={44} className="cv-room-kicker">
+        {c.kicker}
+      </text>
+      <text x={32} y={80} className="cv-room-title" style={{ fontFamily: SERIF }}>
+        {c.headline}
+      </text>
+      {/* running total */}
+      <g transform="translate(404 26)">
+        <rect width={128} height={40} rx={8} className="cv-room-card" />
+        <text x={12} y={17} className="cv-tag-text">
+          {total}
+        </text>
+        <rect x={12} y={24} width={80} height={7} rx={3} className="cv-acc cv-progress" />
+      </g>
+      {/* rug */}
+      <ellipse cx={170} cy={290} rx={150} ry={18} className="cv-rug" />
+      {/* sofa */}
+      <g className="cv-sofa">
+        <rect x={58} y={176} width={214} height={46} rx={14} className="cv-sofa-back" />
+        <rect x={50} y={208} width={230} height={44} rx={10} className="cv-sofa-seat" />
+        <rect x={42} y={196} width={30} height={56} rx={10} className="cv-sofa-back" />
+        <rect x={258} y={196} width={30} height={56} rx={10} className="cv-sofa-back" />
+        <rect x={64} y={252} width={6} height={10} className="cv-room-leg" />
+        <rect x={260} y={252} width={6} height={10} className="cv-room-leg" />
+      </g>
+      {tag(120, 150, sofa, 64)}
+      {/* floor lamp */}
+      <circle cx={340} cy={130} r={46} className="cv-lamp-glow" />
+      <path d="M322 108 L358 108 L366 140 L314 140 Z" className="cv-lamp-shade" />
+      <rect x={339} y={140} width={2.5} height={118} className="cv-room-leg" />
+      <rect x={326} y={256} width={28} height={4} rx={2} className="cv-room-leg" />
+      {tag(250, 112, lamp, 58)}
+      {/* shelf */}
+      <g>
+        <rect x={418} y={118} width={92} height={142} className="cv-shelf" />
+        {[0, 1, 2].map((i) => (
+          <rect key={i} x={424} y={124 + i * 44} width={80} height={38} className="cv-shelf-hole" />
+        ))}
+        {[
+          [430, 136, 8, 24],
+          [440, 132, 10, 28],
+          [452, 140, 7, 20],
+          [474, 178, 22, 18],
+          [432, 222, 9, 26],
+          [445, 226, 9, 22],
+        ].map(([x, y, w, h], i) => (
+          <rect key={i} x={x} y={y} width={w} height={h} className={i % 3 === 1 ? 'cv-acc' : 'cv-book'} />
+        ))}
+      </g>
+      {tag(428, 92, shelf, 66)}
+    </g>
+  );
+}
+
 const SCENES: Record<Cover['scene'], (p: { c: Cover; uid: string }) => ReactNode> = {
   dashboard: Dashboard,
   landing: Landing,
@@ -863,6 +979,8 @@ const SCENES: Record<Cover['scene'], (p: { c: Cover; uid: string }) => ReactNode
   letter: Letter,
   transcript: Transcript,
   ticket: Ticket,
+  door: Door,
+  room: Room,
 };
 
 export function ProjectCover({ cover, domain }: { cover: Cover; domain: string }) {

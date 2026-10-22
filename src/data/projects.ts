@@ -34,7 +34,9 @@ export type CoverScene =
   | 'carrent'
   | 'letter'
   | 'transcript'
-  | 'ticket';
+  | 'ticket'
+  | 'door'
+  | 'room';
 export type CoverTone = 'kw' | 'fn' | 'str' | 'num' | 'caret';
 
 export interface ProjectCover {
@@ -173,6 +175,48 @@ export const projects: Project[] = [
       headline: 'Аренда авто',
       kicker: 'Томск, ул. Пушкина',
       labels: ['Эконом', 'Комфорт', 'Премиум', 'Мои даты', 'Забронировать', '15 мин', 'до ключей'],
+    },
+  },
+  {
+    id: 'holz',
+    title: { ru: 'HOLZ — редизайн сайта дверей', en: 'HOLZ door website redesign' },
+    description: {
+      ru: 'Концепт редизайна сайта производителя межкомнатных дверей. Главная разворачивается в 9 сцен на прокрутке: дверь-портал, анатомия двери, смена покрытий, скрытая дверь Illusion. Каталог с фильтрами и конфигуратором, где SVG-двери перекрашиваются под выбранное покрытие.',
+      en: 'A redesign concept for an interior door manufacturer. The home page unfolds in 9 scroll scenes: a door as a portal, the anatomy of a door, switching finishes, and the hidden Illusion door. A catalog with filters and a configurator where SVG doors recolor to match the chosen finish.',
+    },
+    category: 'sites',
+    domain: 'bug1vuge.github.io/holz-redesign',
+    // Taken from the project's repository.
+    stack: ['React', 'TypeScript', 'Vite', 'GSAP (ScrollTrigger, Flip)', 'Lenis', 'React Router', 'SVG'],
+    demoUrl: 'https://bug1vuge.github.io/holz-redesign/',
+    repoUrl: 'https://github.com/bug1vuge/holz-redesign',
+    cover: {
+      scene: 'door',
+      tone: 'caret',
+      headline: 'HOLZ',
+      kicker: 'INTERIOR DOORS',
+      labels: ['КАТАЛОГ'],
+    },
+  },
+  {
+    id: 'mebel-bin',
+    title: { ru: '«Мебель БиН» — редизайн магазина', en: 'Mebel BiN store redesign' },
+    description: {
+      ru: 'Концепт редизайна томского интернет-магазина мебели. На главной пустая комната обставляется мебелью с ценниками и живым итогом, диван перетягивается новой тканью, а кухня собирается по модулям. Каталог с фильтрами, карточка товара и корзина с оформлением заказа; вся мебель нарисована процедурным SVG.',
+      en: 'A redesign concept for an online furniture store in Tomsk. On the home page, an empty room fills with furniture, complete with price tags and a live total; a sofa gets reupholstered and a kitchen assembles module by module. A catalog with filters, product pages, and a cart with checkout; all furniture is drawn as procedural SVG.',
+    },
+    category: 'sites',
+    domain: 'bug1vuge.github.io/mebel-bin-redesign',
+    // Taken from the project's repository.
+    stack: ['React', 'TypeScript', 'Vite', 'GSAP (ScrollTrigger, Flip)', 'Lenis', 'React Router', 'SVG'],
+    demoUrl: 'https://bug1vuge.github.io/mebel-bin-redesign/',
+    repoUrl: 'https://github.com/bug1vuge/mebel-bin-redesign',
+    cover: {
+      scene: 'room',
+      tone: 'num',
+      headline: 'Обставим комнату',
+      kicker: 'МЕБЕЛЬ БИН, ТОМСК',
+      labels: ['Диван', 'Стеллаж', 'Торшер', 'Итого'],
     },
   },
   {
@@ -419,6 +463,18 @@ export const publicRepos: { name: string; lang: string; tone: CoverTone; about: 
     lang: 'JavaScript',
     tone: 'caret',
     about: { ru: 'Прототип сервиса аренды авто, PWA', en: 'Car rental service prototype, PWA' },
+  },
+  {
+    name: 'holz-redesign',
+    lang: 'TypeScript',
+    tone: 'fn',
+    about: { ru: 'Редизайн сайта производителя дверей', en: 'Door manufacturer website redesign' },
+  },
+  {
+    name: 'mebel-bin-redesign',
+    lang: 'TypeScript',
+    tone: 'fn',
+    about: { ru: 'Редизайн интернет-магазина мебели', en: 'Furniture store redesign' },
   },
   {
     name: 'animated-letter',

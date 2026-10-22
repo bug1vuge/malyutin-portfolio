@@ -497,6 +497,15 @@
   display: block;
 }
 
+/* A single-column card next to a project card: names only, so the row stays even */
+.project-cell--more[data-r3='2'] .repo__about {
+  display: none;
+}
+
+.project-cell--more[data-r3='2'] .repo {
+  padding-block: 0.8rem;
+}
+
 /* Spanning two columns: lay the repos out in two columns too */
 .project-cell--more[data-r3='1'] .repos {
   display: grid;
